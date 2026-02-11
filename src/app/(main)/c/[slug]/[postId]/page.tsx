@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth/config";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
-import { CommentThread } from "@/components/comment/comment-thread";
+import { RealtimeCommentThread } from "@/components/comment/realtime-comment-thread";
 import { CommentForm } from "@/components/comment/comment-form";
 import { PostVoteButtons } from "@/components/post/post-vote-buttons";
 import { formatRelativeTime } from "@/lib/utils";
@@ -132,7 +132,7 @@ export default async function PostPage({
 
       {/* Comments */}
       <div className="mt-4">
-        <CommentThread comments={comments} postId={post.id} />
+        <RealtimeCommentThread comments={comments} postId={post.id} />
       </div>
     </div>
   );

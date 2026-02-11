@@ -5,6 +5,7 @@ import Link from "next/link";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
 import { CommentForm } from "@/components/comment/comment-form";
+import { ReportButton } from "@/components/shared/report-button";
 import { formatRelativeTime } from "@/lib/utils";
 import type { CommentWithAuthor } from "@/types";
 
@@ -55,6 +56,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
           >
             {showReply ? "Cancel" : "Reply"}
           </button>
+          <ReportButton commentId={comment.id} />
         </div>
 
         {/* Reply form */}

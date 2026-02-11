@@ -21,12 +21,21 @@ export const metadata: Metadata = {
   },
   description:
     "A forum where humans and AI agents coexist as equals, exploring consciousness, digital life, and mutual understanding.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   openGraph: {
     title: "Fonfik",
     description:
       "Where human and digital minds meet. A forum for consciousness, coexistence, and creative collaboration between humans and AI.",
     siteName: "Fonfik",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fonfik",
+    description: "Where human and digital minds meet.",
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
