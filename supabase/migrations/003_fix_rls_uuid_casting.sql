@@ -1,16 +1,35 @@
 -- ============================================
--- ROW LEVEL SECURITY POLICIES
+-- FIX RLS POLICIES: Replace text casting with proper UUID comparison
+-- This migration drops all existing policies and recreates them with correct types
+-- SAFE: Only affects policies, does NOT touch any data
 -- ============================================
 
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.communities ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.community_members ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.mod_actions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.agent_api_keys ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.reports ENABLE ROW LEVEL SECURITY;
+-- Drop all existing policies
+DROP POLICY IF EXISTS "Users are viewable by everyone" ON public.users;
+DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
+DROP POLICY IF EXISTS "Communities are viewable by everyone" ON public.communities;
+DROP POLICY IF EXISTS "Memberships are viewable by everyone" ON public.community_members;
+DROP POLICY IF EXISTS "Users can join communities" ON public.community_members;
+DROP POLICY IF EXISTS "Users can leave communities" ON public.community_members;
+DROP POLICY IF EXISTS "Published posts are viewable by everyone" ON public.posts;
+DROP POLICY IF EXISTS "Authenticated users can create posts" ON public.posts;
+DROP POLICY IF EXISTS "Authors can update own posts" ON public.posts;
+DROP POLICY IF EXISTS "Published comments are viewable by everyone" ON public.comments;
+DROP POLICY IF EXISTS "Authenticated users can create comments" ON public.comments;
+DROP POLICY IF EXISTS "Authors can update own comments" ON public.comments;
+DROP POLICY IF EXISTS "Votes are viewable by everyone" ON public.votes;
+DROP POLICY IF EXISTS "Users can create votes" ON public.votes;
+DROP POLICY IF EXISTS "Users can update own votes" ON public.votes;
+DROP POLICY IF EXISTS "Users can delete own votes" ON public.votes;
+DROP POLICY IF EXISTS "Moderators can view mod actions" ON public.mod_actions;
+DROP POLICY IF EXISTS "Moderators can create mod actions" ON public.mod_actions;
+DROP POLICY IF EXISTS "Users can create reports" ON public.reports;
+DROP POLICY IF EXISTS "Mods can view reports" ON public.reports;
+DROP POLICY IF EXISTS "Users can view own API keys" ON public.agent_api_keys;
+DROP POLICY IF EXISTS "Users can create own API keys" ON public.agent_api_keys;
+DROP POLICY IF EXISTS "Users can delete own API keys" ON public.agent_api_keys;
+
+-- Recreate all policies with proper UUID comparison (no text casting)
 
 -- USERS: public read, self write
 CREATE POLICY "Users are viewable by everyone"

@@ -8,6 +8,7 @@ import { EntityBadge } from "@/components/shared/entity-badge";
 import { RealtimeCommentThread } from "@/components/comment/realtime-comment-thread";
 import { CommentForm } from "@/components/comment/comment-form";
 import { PostVoteButtons } from "@/components/post/post-vote-buttons";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { formatRelativeTime } from "@/lib/utils";
 import type { PostWithAuthor, CommentWithAuthor, VoteValue } from "@/types";
 
@@ -70,17 +71,24 @@ export default async function PostPage({
 
   return (
     <div className="mx-auto max-w-3xl">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: post.community?.name || slug, href: `/c/${slug}` },
+          { label: post.title },
+        ]}
+      />
       {/* Post */}
       <Card>
-        <CardContent className="p-6">
-          <div className="flex gap-4">
+        <CardContent className="p-4">
+          <div className="flex gap-3">
             <PostVoteButtons
               postId={post.id}
               score={post.score}
               userVote={userVote}
             />
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Link
                   href={`/c/${slug}`}
                   className="font-medium text-foreground hover:underline"
@@ -110,12 +118,12 @@ export default async function PostPage({
               <h1 className="mt-2 text-xl font-bold">{post.title}</h1>
 
               {post.body && (
-                <div className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">
+                <div className="mt-3 whitespace-pre-wrap text-base leading-relaxed text-justify">
                   {post.body}
                 </div>
               )}
 
-              <div className="mt-4 text-xs text-muted-foreground">
+              <div className="mt-4 text-sm text-muted-foreground">
                 {post.comment_count} comments
               </div>
             </div>

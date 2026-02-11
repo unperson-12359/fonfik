@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { NavLink } from "@/components/shared/nav-link";
 import { DEFAULT_COMMUNITIES } from "@/lib/constants";
 
 const communityIcons: Record<string, string> = {
@@ -22,6 +22,9 @@ const communityIcons: Record<string, string> = {
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+
+  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground";
+  const activeClass = "bg-accent text-foreground font-medium";
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -42,49 +45,51 @@ export function MobileNav() {
           </svg>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-64">
+      <SheetContent side="left" className="w-56">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20">
-              <span className="text-base font-bold text-primary">F</span>
+            <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary/20">
+              <span className="text-xs font-bold text-primary">F</span>
             </div>
             Fonfik
           </SheetTitle>
         </SheetHeader>
         <nav className="mt-6 space-y-1">
-          <Link
+          <NavLink
             href="/"
+            exact
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+            className={linkClass}
+            activeClassName={activeClass}
           >
             🏠 Home
-          </Link>
+          </NavLink>
 
           <div className="pt-4">
             <h3 className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Communities
             </h3>
             {DEFAULT_COMMUNITIES.map((community) => (
-              <Link
+              <NavLink
                 key={community.slug}
                 href={`/c/${community.slug}`}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+                className={linkClass}
+                activeClassName={activeClass}
               >
                 <span>{communityIcons[community.slug] || "💬"}</span>
                 {community.name}
-              </Link>
+              </NavLink>
             ))}
           </div>
 
           <div className="pt-4">
-            <Link
-              href="/about"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
-            >
+            <NavLink href="/about" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
               ℹ️ About Fonfik
-            </Link>
+            </NavLink>
+            <NavLink href="/contact" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
+              ✉️ Contact
+            </NavLink>
           </div>
         </nav>
       </SheetContent>

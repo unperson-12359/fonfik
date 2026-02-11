@@ -1,17 +1,25 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PostList } from "@/components/post/post-list";
+import { Pagination } from "@/components/shared/pagination";
+import { LIMITS } from "@/lib/constants";
 import type { PostWithAuthor } from "@/types";
 
-async function getPosts(sort: string): Promise<PostWithAuthor[]> {
+const PER_PAGE = LIMITS.POSTS_PER_PAGE;
+
+async function getPosts(sort: string, page: number): Promise<{ posts: PostWithAuthor[]; total: number }> {
   try {
     const supabase = createAdminClient();
+    const from = (page - 1) * PER_PAGE;
+    const to = from + PER_PAGE - 1;
+
     let query = supabase
       .from("posts")
       .select(
-        "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)"
+        "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)",
+        { count: "exact" }
       )
       .eq("status", "published")
-      .limit(25);
+      .range(from, to);
 
     if (sort === "new") {
       query = query.order("created_at", { ascending: false });
@@ -19,25 +27,29 @@ async function getPosts(sort: string): Promise<PostWithAuthor[]> {
       query = query.order("score", { ascending: false }).order("created_at", { ascending: false });
     }
 
-    const { data } = await query;
-    return (data as unknown as PostWithAuthor[]) || [];
+    const { data, count } = await query;
+    return { posts: (data as unknown as PostWithAuthor[]) || [], total: count || 0 };
   } catch {
-    return [];
+    return { posts: [], total: 0 };
   }
 }
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ sort?: string }>;
+  searchParams: Promise<{ sort?: string; page?: string }>;
 }) {
   const params = await searchParams;
   const sort = params.sort || "hot";
-  const posts = await getPosts(sort);
+  const page = Math.max(1, parseInt(params.page || "1"));
+  const { posts, total } = await getPosts(sort, page);
+  const totalPages = Math.ceil(total / PER_PAGE);
+
+  const baseUrl = sort === "hot" ? "/" : `/?sort=${sort}`;
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-4">
+      <div className="mb-4 flex items-center gap-4">
         <h1 className="text-xl font-bold">Home</h1>
         <div className="flex gap-1 rounded-lg bg-muted p-1 text-sm">
           <SortLink sort="hot" active={sort === "hot"} label="Hot" />
@@ -45,6 +57,7 @@ export default async function HomePage({
         </div>
       </div>
       <PostList posts={posts} />
+      <Pagination currentPage={page} totalPages={totalPages} baseUrl={baseUrl} />
     </div>
   );
 }

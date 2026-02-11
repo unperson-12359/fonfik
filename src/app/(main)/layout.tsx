@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { Sidebar } from "@/components/layout/sidebar";
 
 export default function MainLayout({
@@ -12,8 +13,8 @@ export default function MainLayout({
     <SessionProvider>
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="mx-auto max-w-7xl px-4 py-6">
-          <div className="flex gap-6">
+        <div className="mx-auto max-w-7xl px-4 py-3">
+          <div className="flex gap-4">
             <Suspense fallback={<div className="hidden w-60 shrink-0 lg:block" />}>
               <Sidebar />
             </Suspense>
@@ -22,6 +23,7 @@ export default function MainLayout({
             </main>
           </div>
         </div>
+        <Footer />
       </div>
     </SessionProvider>
   );

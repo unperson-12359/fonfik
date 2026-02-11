@@ -14,7 +14,7 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <article>
       <Card className="transition-all duration-200 hover:border-border hover:shadow-sm">
-        <div className="flex gap-3 p-4">
+        <div className="flex gap-2.5 p-3">
           {/* Vote area */}
           <div className="flex flex-col items-center gap-1 pt-1" aria-label={`Score: ${post.score}`}>
             <svg
@@ -40,7 +40,7 @@ export function PostCard({ post }: PostCardProps) {
 
           {/* Content */}
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               {post.community && (
                 <>
                   <Link
@@ -80,12 +80,12 @@ export function PostCard({ post }: PostCardProps) {
             </Link>
 
             {post.body && (
-              <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+              <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
                 {post.body}
               </p>
             )}
 
-            <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
               <Link
                 href={`/c/${post.community?.slug || "unknown"}/${post.id}`}
                 className="flex items-center gap-1 transition-colors hover:text-foreground"

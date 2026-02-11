@@ -80,7 +80,7 @@ export function VoteButtons({
         className={cn(
           "text-xs font-semibold tabular-nums",
           optimisticState.userVote === "up" && "text-amber-500",
-          optimisticState.userVote === "down" && "text-blue-500",
+          optimisticState.userVote === "down" && "text-indigo-400",
           !optimisticState.userVote && "text-muted-foreground"
         )}
       >
@@ -92,7 +92,7 @@ export function VoteButtons({
         className={cn(
           "rounded p-1 transition-colors hover:bg-accent",
           optimisticState.userVote === "down"
-            ? "text-blue-500"
+            ? "text-indigo-400"
             : "text-muted-foreground hover:text-foreground"
         )}
         aria-label="Downvote"

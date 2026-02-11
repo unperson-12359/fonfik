@@ -2,10 +2,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PostList } from "@/components/post/post-list";
+import { Pagination } from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { LIMITS } from "@/lib/constants";
 import type { Community, PostWithAuthor, CommunityRule } from "@/types";
+
+const PER_PAGE = LIMITS.POSTS_PER_PAGE;
 
 async function getCommunity(slug: string): Promise<Community | null> {
   const supabase = createAdminClient();
@@ -19,17 +22,22 @@ async function getCommunity(slug: string): Promise<Community | null> {
 
 async function getPosts(
   communityId: string,
-  sort: string
-): Promise<PostWithAuthor[]> {
+  sort: string,
+  page: number
+): Promise<{ posts: PostWithAuthor[]; total: number }> {
   const supabase = createAdminClient();
+  const from = (page - 1) * PER_PAGE;
+  const to = from + PER_PAGE - 1;
+
   let query = supabase
     .from("posts")
     .select(
-      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)"
+      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)",
+      { count: "exact" }
     )
     .eq("community_id", communityId)
     .eq("status", "published")
-    .limit(25);
+    .range(from, to);
 
   if (sort === "new") {
     query = query.order("created_at", { ascending: false });
@@ -37,8 +45,8 @@ async function getPosts(
     query = query.order("score", { ascending: false }).order("created_at", { ascending: false });
   }
 
-  const { data } = await query;
-  return (data as unknown as PostWithAuthor[]) || [];
+  const { data, count } = await query;
+  return { posts: (data as unknown as PostWithAuthor[]) || [], total: count || 0 };
 }
 
 const communityIcons: Record<string, string> = {
@@ -54,34 +62,38 @@ export default async function CommunityPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ sort?: string }>;
+  searchParams: Promise<{ sort?: string; page?: string }>;
 }) {
   const { slug } = await params;
-  const { sort: sortParam } = await searchParams;
+  const { sort: sortParam, page: pageParam } = await searchParams;
   const sort = sortParam || "hot";
+  const page = Math.max(1, parseInt(pageParam || "1"));
 
   const community = await getCommunity(slug);
   if (!community) notFound();
 
-  const posts = await getPosts(community.id, sort);
+  const { posts, total } = await getPosts(community.id, sort, page);
+  const totalPages = Math.ceil(total / PER_PAGE);
   const rules = (community.rules || []) as CommunityRule[];
 
+  const baseUrl = sort === "hot" ? `/c/${slug}` : `/c/${slug}?sort=${sort}`;
+
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-5">
       {/* Main content */}
       <div className="min-w-0 flex-1">
         {/* Community header */}
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-2xl">
+            <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-primary/10 text-lg">
               {communityIcons[community.slug] || "💬"}
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold">{community.name}</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <h1 className="text-xl font-bold">{community.name}</h1>
+              <p className="mt-0.5 text-base text-muted-foreground">
                 {community.description}
               </p>
-              <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
                 <span>{community.member_count} members</span>
                 <span>·</span>
                 <span>{community.post_count} posts</span>
@@ -120,14 +132,15 @@ export default async function CommunityPage({
         </div>
 
         <PostList posts={posts} />
+        <Pagination currentPage={page} totalPages={totalPages} baseUrl={baseUrl} />
       </div>
 
       {/* Community sidebar (desktop) */}
-      <aside className="hidden w-72 shrink-0 xl:block">
+      <aside className="hidden w-64 shrink-0 xl:block">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3">
             <h3 className="font-semibold">About</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-base text-muted-foreground">
               {community.description}
             </p>
 

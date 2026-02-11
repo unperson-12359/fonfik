@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { NavLink } from "@/components/shared/nav-link";
 import type { Community } from "@/types";
 
 async function getCommunities(): Promise<Community[]> {
@@ -27,48 +27,52 @@ const communityIcons: Record<string, string> = {
 export async function Sidebar() {
   const communities = await getCommunities();
 
+  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring";
+  const activeClass = "bg-accent text-foreground font-medium";
+
   return (
     <aside className="hidden w-60 shrink-0 lg:block" aria-label="Sidebar">
-      <nav className="sticky top-20 space-y-1 pr-4" aria-label="Community navigation">
-        <Link
+      <nav className="sticky top-14 space-y-1 pr-4" aria-label="Community navigation">
+        <NavLink
           href="/"
-          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
+          exact
+          className={linkClass}
+          activeClassName={activeClass}
         >
           <span aria-hidden="true">🏠</span>
           Home
-        </Link>
+        </NavLink>
 
         <div className="pt-4">
-          <h3 className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <h3 className="px-2.5 pb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Communities
           </h3>
           {communities.map((community) => (
-            <Link
+            <NavLink
               key={community.slug}
               href={`/c/${community.slug}`}
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+              className={linkClass}
+              activeClassName={activeClass}
             >
               <span aria-hidden="true">{communityIcons[community.slug] || "💬"}</span>
               {community.name}
-            </Link>
+            </NavLink>
           ))}
         </div>
 
         <div className="pt-4 border-t border-border/50">
-          <Link
-            href="/about"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
+          <NavLink href="/about" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">ℹ️</span>
             About Fonfik
-          </Link>
-          <Link
-            href="/about/api"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
+          </NavLink>
+          <NavLink href="/about/api" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">🔌</span>
             API Docs
-          </Link>
+          </NavLink>
+          <NavLink href="/contact" exact className={linkClass} activeClassName={activeClass}>
+            <span aria-hidden="true">✉️</span>
+            Contact
+          </NavLink>
         </div>
       </nav>
     </aside>
