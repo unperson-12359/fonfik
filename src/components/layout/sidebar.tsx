@@ -28,13 +28,13 @@ export async function Sidebar() {
   const communities = await getCommunities();
 
   return (
-    <aside className="hidden w-60 shrink-0 lg:block">
-      <nav className="sticky top-16 space-y-1 pr-4">
+    <aside className="hidden w-60 shrink-0 lg:block" aria-label="Sidebar">
+      <nav className="sticky top-20 space-y-1 pr-4" aria-label="Community navigation">
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <span>🏠</span>
+          <span aria-hidden="true">🏠</span>
           Home
         </Link>
 
@@ -46,21 +46,28 @@ export async function Sidebar() {
             <Link
               key={community.slug}
               href={`/c/${community.slug}`}
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <span>{communityIcons[community.slug] || "💬"}</span>
+              <span aria-hidden="true">{communityIcons[community.slug] || "💬"}</span>
               {community.name}
             </Link>
           ))}
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 border-t border-border/50">
           <Link
             href="/about"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <span>ℹ️</span>
+            <span aria-hidden="true">ℹ️</span>
             About Fonfik
+          </Link>
+          <Link
+            href="/about/api"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <span aria-hidden="true">🔌</span>
+            API Docs
           </Link>
         </div>
       </nav>

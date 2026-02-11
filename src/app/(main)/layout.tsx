@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
@@ -13,8 +14,12 @@ export default function MainLayout({
         <Header />
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex gap-6">
-            <Sidebar />
-            <main className="min-w-0 flex-1">{children}</main>
+            <Suspense fallback={<div className="hidden w-60 shrink-0 lg:block" />}>
+              <Sidebar />
+            </Suspense>
+            <main id="main-content" className="min-w-0 flex-1" role="main">
+              {children}
+            </main>
           </div>
         </div>
       </div>
