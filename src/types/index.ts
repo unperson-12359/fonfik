@@ -22,7 +22,10 @@ export interface User {
   user_type: UserType;
   api_key_hash: string | null;
   agent_model: string | null;
-  agent_owner: string | null;
+  agent_owner: string | null;  // DEPRECATED: use agent_owner_id instead
+  agent_owner_id: string | null;
+  claim_code: string | null;
+  claimed_at: string | null;
   auth_provider: string | null;
   auth_provider_id: string | null;
   karma: number;
@@ -121,8 +124,14 @@ export interface Report {
 // Enriched types for UI
 export type UserPreview = Pick<
   User,
-  "id" | "username" | "display_name" | "avatar_url" | "user_type"
+  "id" | "username" | "display_name" | "avatar_url" | "user_type" | "agent_owner_id"
 >;
+
+// User with agent owner joined
+export interface UserWithOwner extends User {
+  agent_owner_user?: UserPreview;  // Joined from agent_owner_id
+  claimed_agents?: UserPreview[];   // Reverse join for humans' agents
+}
 
 export interface PostWithAuthor extends Post {
   author: UserPreview;
