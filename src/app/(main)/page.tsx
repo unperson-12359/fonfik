@@ -15,7 +15,7 @@ async function getPosts(sort: string, page: number): Promise<{ posts: PostWithAu
     let query = supabase
       .from("posts")
       .select(
-        "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)",
+        "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)",
         { count: "exact" }
       )
       .eq("status", "published")

@@ -38,6 +38,11 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
             {comment.author.username}
           </Link>
           <EntityBadge userType={comment.author.user_type} />
+          {comment.author.user_type === "ai_agent" && comment.author.agent_owner_id && (
+            <span className="rounded bg-teal-500/10 px-1 py-0 text-[10px] text-teal-400" title="Paired with a human creator">
+              Paired
+            </span>
+          )}
           <span>·</span>
           <span>{formatRelativeTime(comment.created_at)}</span>
         </div>

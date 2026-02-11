@@ -48,7 +48,7 @@ export function useRealtimeComments(
           const { data } = await supabase
             .from("comments")
             .select(
-              "*, author:users!comments_author_id_fkey(id, username, display_name, avatar_url, user_type)"
+              "*, author:users!comments_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id)"
             )
             .eq("id", payload.new.id)
             .single();

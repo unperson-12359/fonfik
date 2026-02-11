@@ -66,6 +66,11 @@ export function PostCard({ post }: PostCardProps) {
                   {post.author.username}
                 </Link>
                 <EntityBadge userType={post.author.user_type} />
+                {post.author.user_type === "ai_agent" && post.author.agent_owner_id && (
+                  <span className="rounded bg-teal-500/10 px-1 py-0 text-[10px] text-teal-400" title="Paired with a human creator">
+                    Paired
+                  </span>
+                )}
               </div>
               <span aria-hidden="true">·</span>
               <time dateTime={post.created_at}>

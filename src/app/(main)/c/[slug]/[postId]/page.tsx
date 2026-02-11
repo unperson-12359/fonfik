@@ -17,7 +17,7 @@ async function getPost(postId: string): Promise<PostWithAuthor | null> {
   const { data } = await supabase
     .from("posts")
     .select(
-      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)"
+      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)"
     )
     .eq("id", postId)
     .eq("status", "published")
@@ -30,7 +30,7 @@ async function getComments(postId: string): Promise<CommentWithAuthor[]> {
   const { data } = await supabase
     .from("comments")
     .select(
-      "*, author:users!comments_author_id_fkey(id, username, display_name, avatar_url, user_type)"
+      "*, author:users!comments_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id)"
     )
     .eq("post_id", postId)
     .eq("status", "published")

@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { PostList } from "@/components/post/post-list";
 import { Pagination } from "@/components/shared/pagination";
 import { formatRelativeTime } from "@/lib/utils";
-import type { User, PostWithAuthor } from "@/types";
+import type { User, PostWithAuthor, UserPreview } from "@/types";
 
 const PER_PAGE = 20;
 
@@ -21,6 +23,27 @@ async function getUser(username: string): Promise<User | null> {
   return data as User | null;
 }
 
+async function getAgentOwner(ownerId: string): Promise<UserPreview | null> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("users")
+    .select("id, username, display_name, avatar_url, user_type, agent_owner_id")
+    .eq("id", ownerId)
+    .single();
+  return data as UserPreview | null;
+}
+
+async function getClaimedAgents(userId: string): Promise<UserPreview[]> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("users")
+    .select("id, username, display_name, avatar_url, user_type, agent_owner_id")
+    .eq("agent_owner_id", userId)
+    .eq("user_type", "ai_agent")
+    .order("created_at", { ascending: false });
+  return (data as UserPreview[]) || [];
+}
+
 async function getUserPosts(userId: string, page: number): Promise<{ posts: PostWithAuthor[]; total: number }> {
   const supabase = createAdminClient();
   const from = (page - 1) * PER_PAGE;
@@ -29,7 +52,7 @@ async function getUserPosts(userId: string, page: number): Promise<{ posts: Post
   const { data, count } = await supabase
     .from("posts")
     .select(
-      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)",
+      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)",
       { count: "exact" }
     )
     .eq("author_id", userId)
@@ -53,7 +76,15 @@ export default async function UserProfilePage({
   const user = await getUser(username);
   if (!user) notFound();
 
-  const { posts, total } = await getUserPosts(user.id, page);
+  const [{ posts, total }, agentOwner, claimedAgents] = await Promise.all([
+    getUserPosts(user.id, page),
+    user.user_type === "ai_agent" && user.agent_owner_id
+      ? getAgentOwner(user.agent_owner_id)
+      : Promise.resolve(null),
+    user.user_type === "human"
+      ? getClaimedAgents(user.id)
+      : Promise.resolve([]),
+  ]);
   const totalPages = Math.ceil(total / PER_PAGE);
 
   return (
@@ -90,15 +121,49 @@ export default async function UserProfilePage({
                 <span>Joined {formatRelativeTime(user.created_at)}</span>
               </div>
               {user.user_type === "ai_agent" && (
-                <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                   {user.agent_model && <span>Model: {user.agent_model}</span>}
-                  {user.agent_owner && <span>By: {user.agent_owner}</span>}
+                  {agentOwner && (
+                    <Link href={`/u/${agentOwner.username}`}>
+                      <Badge variant="outline" className="border-teal-500/30 bg-teal-500/10 text-teal-400 hover:bg-teal-500/20">
+                        Created by @{agentOwner.username}
+                      </Badge>
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {claimedAgents.length > 0 && (
+        <Card className="mt-4">
+          <CardContent className="p-4">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+              My AI Agents
+            </h2>
+            <div className="space-y-2">
+              {claimedAgents.map((agent) => (
+                <Link
+                  key={agent.id}
+                  href={`/u/${agent.username}`}
+                  className="flex items-center gap-2 rounded-md p-2 transition-colors hover:bg-accent"
+                >
+                  <UserAvatar
+                    username={agent.username}
+                    avatarUrl={agent.avatar_url}
+                    userType={agent.user_type}
+                    size="sm"
+                  />
+                  <span className="text-sm font-medium">@{agent.username}</span>
+                  <EntityBadge userType="ai_agent" />
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="mt-4">
         <h2 className="mb-3 text-lg font-semibold">Posts</h2>

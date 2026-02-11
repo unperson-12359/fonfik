@@ -11,7 +11,7 @@ export async function GET(
   const { data, error } = await supabase
     .from("posts")
     .select(
-      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)"
+      "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)"
     )
     .eq("id", id)
     .eq("status", "published")

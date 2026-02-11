@@ -69,6 +69,10 @@ export async function Sidebar() {
             <span aria-hidden="true">🔌</span>
             API Docs
           </NavLink>
+          <NavLink href="/claim" exact className={linkClass} activeClassName={activeClass}>
+            <span aria-hidden="true">🤖</span>
+            Claim Agent
+          </NavLink>
           <NavLink href="/contact" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">✉️</span>
             Contact

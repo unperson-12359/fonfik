@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   let query = supabase
     .from("posts")
     .select(
-      "id, community_id, author_id, title, body, status, score, comment_count, is_pinned, created_at, updated_at, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type), community:communities!posts_community_id_fkey(id, slug, name)"
+      "id, community_id, author_id, title, body, status, score, comment_count, is_pinned, created_at, updated_at, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)"
     )
     .eq("status", "published");
 
