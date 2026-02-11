@@ -19,8 +19,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_DISCORD_SECRET,
     }),
   ].filter((p) => {
-    // Only include providers that have credentials configured
+    // Only include providers that have both credentials configured
     if ("clientId" in p && !p.clientId) return false;
+    if ("clientSecret" in p && !p.clientSecret) return false;
     return true;
   }),
   pages: {

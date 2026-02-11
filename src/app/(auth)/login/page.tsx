@@ -5,11 +5,21 @@ import { Separator } from "@/components/ui/separator";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import Link from "next/link";
 
+function getAvailableOAuthProviders(): string[] {
+  const providers: string[] = [];
+  if (process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET) providers.push("github");
+  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) providers.push("google");
+  if (process.env.AUTH_DISCORD_ID && process.env.AUTH_DISCORD_SECRET) providers.push("discord");
+  return providers;
+}
+
 export default async function LoginPage() {
   const session = await auth();
   if (session?.user) {
     redirect("/");
   }
+
+  const availableProviders = getAvailableOAuthProviders();
 
   return (
     <div className="space-y-6">
@@ -33,7 +43,7 @@ export default async function LoginPage() {
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          <OAuthButtons />
+          <OAuthButtons availableProviders={availableProviders} />
         </CardContent>
       </Card>
 

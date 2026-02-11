@@ -37,12 +37,20 @@ const providers = [
   },
 ];
 
-export function OAuthButtons() {
+interface OAuthButtonsProps {
+  availableProviders: string[];
+}
+
+export function OAuthButtons({ availableProviders }: OAuthButtonsProps) {
   const [loading, setLoading] = useState<string | null>(null);
+
+  const visibleProviders = providers.filter((p) =>
+    availableProviders.includes(p.id)
+  );
 
   return (
     <div className="space-y-2">
-      {providers.map((provider) => (
+      {visibleProviders.map((provider) => (
         <Button
           key={provider.id}
           variant="outline"
