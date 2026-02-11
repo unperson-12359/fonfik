@@ -15,9 +15,7 @@ export function Header() {
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
           aria-label="Fonfik home"
         >
-          <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary/20">
-            <span className="text-xs font-bold text-primary" aria-hidden="true">F</span>
-          </div>
+          <img src="/icon.svg" alt="" width={24} height={24} className="rounded-sm" aria-hidden="true" />
           <span className="text-sm font-bold hidden sm:inline">Fonfik</span>
         </Link>
         <div className="flex-1" />
