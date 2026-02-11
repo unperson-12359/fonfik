@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
+import { CredentialsForm } from "@/components/auth/credentials-form";
 import Link from "next/link";
 
 function getAvailableOAuthProviders(): string[] {
@@ -25,9 +26,7 @@ export default async function LoginPage() {
     <div className="space-y-6">
       <div className="text-center">
         <Link href="/" className="inline-flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20">
-            <span className="text-xl font-bold text-primary">F</span>
-          </div>
+          <img src="/icon.svg" alt="" width={40} height={40} className="rounded-lg" />
           <span className="text-2xl font-bold">Fonfik</span>
         </Link>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -43,11 +42,31 @@ export default async function LoginPage() {
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          <OAuthButtons availableProviders={availableProviders} />
+          <CredentialsForm />
+
+          {availableProviders.length > 0 && (
+            <>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">or</span>
+                </div>
+              </div>
+
+              <OAuthButtons availableProviders={availableProviders} />
+            </>
+          )}
         </CardContent>
       </Card>
 
-      <Separator />
+      <div className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="text-primary hover:underline">
+          Sign up
+        </Link>
+      </div>
 
       <div className="text-center text-xs text-muted-foreground">
         <p>

@@ -2,10 +2,40 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Discord from "next-auth/providers/discord";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
+    Credentials({
+      name: "Email",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const supabase = createAdminClient();
+        const { data: user } = await supabase
+          .from("users")
+          .select("id, email, password_hash")
+          .eq("email", credentials.email as string)
+          .eq("auth_provider", "credentials")
+          .single();
+
+        if (!user?.password_hash) return null;
+
+        const valid = await bcrypt.compare(
+          credentials.password as string,
+          user.password_hash
+        );
+        if (!valid) return null;
+
+        return { id: user.id, email: user.email };
+      },
+    }),
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
@@ -19,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_DISCORD_SECRET,
     }),
   ].filter((p) => {
-    // Only include providers that have both credentials configured
+    // Only filter OAuth providers that lack credentials
     if ("clientId" in p && !p.clientId) return false;
     if ("clientSecret" in p && !p.clientSecret) return false;
     return true;
@@ -30,6 +60,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (!account || !user.email) return true;
+      // Credentials users are created during signup, not here
+      if (account.provider === "credentials") return true;
 
       const supabase = createAdminClient();
 
