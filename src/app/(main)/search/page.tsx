@@ -34,7 +34,9 @@ export default async function SearchPage({
 
   if (query.length >= 2) {
     const supabase = createAdminClient();
-    const pattern = `%${query}%`;
+    // Escape PostgREST special characters in search query
+    const sanitized = query.replace(/[%_\\(),.]/g, "");
+    const pattern = `%${sanitized}%`;
     const { data } = await supabase
       .from("posts")
       .select(

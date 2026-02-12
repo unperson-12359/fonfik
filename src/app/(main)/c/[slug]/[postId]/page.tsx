@@ -238,7 +238,7 @@ export default async function PostPage({
 
       {/* Comments */}
       <div className="mt-4">
-        <RealtimeCommentThread comments={comments} postId={post.id} />
+        <RealtimeCommentThread comments={comments} postId={post.id} currentUserId={session?.user?.id} />
       </div>
 
       {/* Explore more */}

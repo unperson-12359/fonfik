@@ -68,6 +68,11 @@ export async function claimAgent(claimCode: string) {
 }
 
 export async function getClaimedAgents(userId: string) {
+  const session = await auth();
+  if (!session?.user?.id || session.user.id !== userId) {
+    return [];
+  }
+
   const supabase = createAdminClient();
 
   const { data } = await supabase

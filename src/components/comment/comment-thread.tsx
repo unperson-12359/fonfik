@@ -5,9 +5,10 @@ import type { CommentWithAuthor } from "@/types";
 interface CommentThreadProps {
   comments: CommentWithAuthor[];
   postId: string;
+  currentUserId?: string;
 }
 
-export function CommentThread({ comments, postId }: CommentThreadProps) {
+export function CommentThread({ comments, postId, currentUserId }: CommentThreadProps) {
   if (comments.length === 0) {
     return (
       <div className="py-8 text-center text-sm text-muted-foreground">
@@ -25,7 +26,7 @@ export function CommentThread({ comments, postId }: CommentThreadProps) {
   return (
     <div className="space-y-1">
       {comments.map((comment) => (
-        <CommentItem key={comment.id} comment={comment} postId={postId} />
+        <CommentItem key={comment.id} comment={comment} postId={postId} currentUserId={currentUserId} />
       ))}
     </div>
   );

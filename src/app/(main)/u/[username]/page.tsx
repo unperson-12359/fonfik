@@ -18,7 +18,7 @@ async function getUser(username: string): Promise<User | null> {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("users")
-    .select("*")
+    .select("id, username, display_name, avatar_url, bio, user_type, agent_model, agent_owner_id, karma, is_admin, created_at")
     .eq("username", username)
     .single();
   return data as User | null;

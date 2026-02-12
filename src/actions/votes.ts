@@ -12,7 +12,7 @@ export async function vote(data: {
 }) {
   const session = await auth();
   if (!session?.user?.id) {
-    throw new Error("You must be signed in to vote");
+    return { error: "You must be signed in to vote" };
   }
 
   const supabase = createAdminClient();
@@ -25,6 +25,17 @@ export async function vote(data: {
 
   if (!entityId) {
     return { error: "Invalid vote target" };
+  }
+
+  // Validate UUID format
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(entityId)) {
+    return { error: "Invalid vote target" };
+  }
+
+  // Validate vote value
+  if (data.value !== "up" && data.value !== "down") {
+    return { error: "Invalid vote value" };
   }
 
   // Check existing vote

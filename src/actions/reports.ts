@@ -18,6 +18,10 @@ export async function reportContent(data: {
     return { error: "Please provide a reason for your report" };
   }
 
+  if (data.reason.length > 2000) {
+    return { error: "Report reason is too long (max 2000 characters)" };
+  }
+
   if (!data.postId && !data.commentId) {
     return { error: "Invalid report target" };
   }

@@ -50,12 +50,12 @@ async function authenticateApiKey(apiKey: string): Promise<ApiUser | null> {
     .eq("is_active", true)
     .single();
 
+  if (!keyRecord) return null;
+
   // Check expiration
-  if (keyRecord?.expires_at && new Date(keyRecord.expires_at) < new Date()) {
+  if (keyRecord.expires_at && new Date(keyRecord.expires_at) < new Date()) {
     return null;
   }
-
-  if (!keyRecord) return null;
 
   // Verify full key with bcrypt
   const isValid = await compare(apiKey, keyRecord.key_hash);

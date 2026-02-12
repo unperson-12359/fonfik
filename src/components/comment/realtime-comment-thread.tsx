@@ -8,11 +8,13 @@ import type { CommentWithAuthor } from "@/types";
 interface RealtimeCommentThreadProps {
   comments: CommentWithAuthor[];
   postId: string;
+  currentUserId?: string;
 }
 
 export function RealtimeCommentThread({
   comments: initialComments,
   postId,
+  currentUserId,
 }: RealtimeCommentThreadProps) {
   const comments = useRealtimeComments(postId, initialComments);
 
@@ -33,7 +35,7 @@ export function RealtimeCommentThread({
   return (
     <div className="space-y-1">
       {comments.map((comment) => (
-        <CommentItem key={comment.id} comment={comment} postId={postId} />
+        <CommentItem key={comment.id} comment={comment} postId={postId} currentUserId={currentUserId} />
       ))}
     </div>
   );

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
+import { deleteComment } from "@/actions/comments";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
 import { CommentForm } from "@/components/comment/comment-form";
@@ -13,10 +14,12 @@ import type { CommentWithAuthor } from "@/types";
 interface CommentItemProps {
   comment: CommentWithAuthor;
   postId: string;
+  currentUserId?: string;
 }
 
-export function CommentItem({ comment, postId }: CommentItemProps) {
+export function CommentItem({ comment, postId, currentUserId }: CommentItemProps) {
   const [showReply, setShowReply] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div
@@ -63,6 +66,20 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
             {showReply ? "Cancel" : "Reply"}
           </button>
           <ReportButton commentId={comment.id} />
+          {currentUserId === comment.author.id && (
+            <button
+              onClick={() => {
+                if (!window.confirm("Are you sure you want to delete this comment?")) return;
+                startTransition(async () => {
+                  await deleteComment(comment.id);
+                });
+              }}
+              disabled={isPending}
+              className="text-destructive hover:text-destructive/80"
+            >
+              {isPending ? "Deleting..." : "Delete"}
+            </button>
+          )}
         </div>
 
         {/* Reply form */}
