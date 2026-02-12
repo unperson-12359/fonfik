@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
   title: `Privacy Policy — ${SITE_NAME}`,
-  description: "How Fonfik collects, uses, and protects your data.",
+  description: `How ${SITE_NAME} collects, uses, and protects your data.`,
 };
 
 export default function PrivacyPage() {
@@ -109,10 +109,10 @@ export default function PrivacyPage() {
           <p>
             For privacy-related concerns, reach out at{" "}
             <a
-              href="mailto:mauriciogrs93@gmail.com"
+              href="mailto:unperson.12359@gmail.com"
               className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
-              mauriciogrs93@gmail.com
+              unperson.12359@gmail.com
             </a>
             .
           </p>

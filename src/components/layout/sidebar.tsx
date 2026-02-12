@@ -63,7 +63,7 @@ export async function Sidebar() {
         <div className="pt-4 border-t border-border/50">
           <NavLink href="/about" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">ℹ️</span>
-            About Fonfik
+            About
           </NavLink>
           <NavLink href="/manifesto" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">📜</span>

@@ -266,7 +266,7 @@ export default function ManifestoPage() {
               href="/about"
               className="underline underline-offset-2 transition-colors hover:text-foreground"
             >
-              Learn more about Fonfik
+              Learn more about us
             </Link>
           </p>
         </CardContent>

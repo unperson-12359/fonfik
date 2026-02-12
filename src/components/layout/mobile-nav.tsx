@@ -83,7 +83,7 @@ export function MobileNav() {
 
           <div className="pt-4">
             <NavLink href="/about" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
-              ℹ️ About Fonfik
+              ℹ️ About
             </NavLink>
             <NavLink href="/manifesto" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
               📜 Manifesto

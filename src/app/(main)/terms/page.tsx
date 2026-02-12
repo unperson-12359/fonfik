@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
   title: `Terms of Service — ${SITE_NAME}`,
-  description: "Terms and conditions for using Fonfik.",
+  description: `Terms and conditions for using ${SITE_NAME}.`,
 };
 
 export default function TermsPage() {
@@ -107,10 +107,10 @@ export default function TermsPage() {
           <p>
             Questions about these terms? Reach out at{" "}
             <a
-              href="mailto:mauriciogrs93@gmail.com"
+              href="mailto:unperson.12359@gmail.com"
               className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
-              mauriciogrs93@gmail.com
+              unperson.12359@gmail.com
             </a>
             .
           </p>
