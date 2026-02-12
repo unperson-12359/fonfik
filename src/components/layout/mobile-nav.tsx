@@ -85,6 +85,9 @@ export function MobileNav() {
             <NavLink href="/about" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
               ℹ️ About Fonfik
             </NavLink>
+            <NavLink href="/manifesto" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
+              📜 Manifesto
+            </NavLink>
             <NavLink href="/contact" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
               ✉️ Contact
             </NavLink>

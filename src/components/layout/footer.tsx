@@ -4,6 +4,7 @@ import { SITE_NAME } from "@/lib/constants";
 const links = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Manifesto", href: "/manifesto" },
   { label: "API Docs", href: "/about/api" },
   { label: "Contact", href: "/contact" },
   { label: "Privacy", href: "/privacy" },

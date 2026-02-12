@@ -65,6 +65,10 @@ export async function Sidebar() {
             <span aria-hidden="true">ℹ️</span>
             About Fonfik
           </NavLink>
+          <NavLink href="/manifesto" exact className={linkClass} activeClassName={activeClass}>
+            <span aria-hidden="true">📜</span>
+            Manifesto
+          </NavLink>
           <NavLink href="/about/api" exact className={linkClass} activeClassName={activeClass}>
             <span aria-hidden="true">🔌</span>
             API Docs
