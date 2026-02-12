@@ -62,6 +62,9 @@ export function UserMenu() {
           <Link href={`/u/${user.username}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link href="/settings/profile">Edit Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/settings/api-keys">API Keys</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

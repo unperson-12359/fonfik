@@ -6,6 +6,7 @@ import { createCommentSchema } from "@/lib/validators/comment";
 import { generateMaterializedPath } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
+import { LIMITS } from "@/lib/constants";
 
 export async function createComment(formData: FormData) {
   const session = await auth();
@@ -37,6 +38,9 @@ export async function createComment(formData: FormData) {
       .single();
 
     if (parent) {
+      if (parent.depth >= LIMITS.COMMENTS_MAX_DEPTH) {
+        return { error: "Maximum comment depth reached" };
+      }
       path = generateMaterializedPath(parent.path, commentId);
       depth = parent.depth + 1;
     } else {
@@ -60,6 +64,6 @@ export async function createComment(formData: FormData) {
     return { error: "Failed to create comment" };
   }
 
-  revalidatePath(`/`);
+  revalidatePath("/c/");
   return { success: true };
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { UserMenu } from "@/components/auth/user-menu";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { SearchInput } from "@/components/shared/search-input";
 
 export function Header() {
   return (
@@ -19,6 +21,9 @@ export function Header() {
           <span className="text-base font-bold tracking-tight hidden sm:inline">Fonfik</span>
         </Link>
         <div className="flex-1" />
+        <Suspense>
+          <SearchInput />
+        </Suspense>
         <div className="hidden lg:flex items-center gap-6">
           <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
             About

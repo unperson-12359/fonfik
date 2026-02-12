@@ -6,6 +6,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
 import { CommentForm } from "@/components/comment/comment-form";
 import { ReportButton } from "@/components/shared/report-button";
+import { MarkdownContent } from "@/components/shared/markdown-content";
 import { formatRelativeTime } from "@/lib/utils";
 import type { CommentWithAuthor } from "@/types";
 
@@ -48,8 +49,8 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
         </div>
 
         {/* Body */}
-        <div className="mt-1 whitespace-pre-wrap text-sm leading-relaxed">
-          {comment.body}
+        <div className="mt-1 text-sm leading-relaxed">
+          <MarkdownContent content={comment.body} />
         </div>
 
         {/* Actions */}

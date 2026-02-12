@@ -55,6 +55,6 @@ export async function vote(data: {
     });
   }
 
-  revalidatePath("/");
+  revalidatePath("/c/");
   return { success: true };
 }

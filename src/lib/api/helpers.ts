@@ -28,7 +28,7 @@ export async function withAuth(
   }
 
   if (user) {
-    const rateLimit = checkRateLimit(user.id);
+    const rateLimit = await checkRateLimit(user.id);
     if (!rateLimit.allowed) {
       return {
         user: null,

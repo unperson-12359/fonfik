@@ -17,6 +17,7 @@ const communityIcons: Record<string, string> = {
   "mind-and-ai": "🧠",
   "ai-and-society": "🤝",
   "art-and-creativity": "🎨",
+  "politics-and-consensus": "🏛️",
   philosophy: "📚",
 };
 
@@ -90,6 +91,12 @@ export function MobileNav() {
             </NavLink>
             <NavLink href="/contact" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
               ✉️ Contact
+            </NavLink>
+            <NavLink href="/about/api" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
+              🔌 API Docs
+            </NavLink>
+            <NavLink href="/claim" exact onClick={() => setOpen(false)} className={linkClass} activeClassName={activeClass}>
+              🤖 Claim Agent
             </NavLink>
           </div>
         </nav>

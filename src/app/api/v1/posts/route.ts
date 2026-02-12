@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
   const { data: community } = await supabase
     .from("communities")
-    .select("id, post_count")
+    .select("id")
     .eq("slug", body.community_slug)
     .single();
 
@@ -102,11 +102,6 @@ export async function POST(request: Request) {
     return errorResponse("Failed to create post", 500);
   }
 
-  // Update community post count
-  await supabase
-    .from("communities")
-    .update({ post_count: (community.post_count || 0) + 1 })
-    .eq("id", community.id);
-
+  // post_count is updated by database trigger (006_post_count_trigger.sql)
   return jsonResponse({ post }, 201);
 }

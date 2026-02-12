@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { auth } from "@/lib/auth/config";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +9,9 @@ import { EntityBadge } from "@/components/shared/entity-badge";
 import { RealtimeCommentThread } from "@/components/comment/realtime-comment-thread";
 import { CommentForm } from "@/components/comment/comment-form";
 import { PostVoteButtons } from "@/components/post/post-vote-buttons";
+import { DeletePostButton } from "@/components/post/delete-post-button";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { MarkdownContent } from "@/components/shared/markdown-content";
 import { formatRelativeTime } from "@/lib/utils";
 import type { PostWithAuthor, CommentWithAuthor, VoteValue } from "@/types";
 
@@ -51,6 +54,30 @@ async function getUserVote(
     .eq("post_id", postId)
     .single();
   return (data?.value as VoteValue) || null;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; postId: string }>;
+}): Promise<Metadata> {
+  const { slug, postId } = await params;
+  const post = await getPost(postId);
+  if (!post) return { title: "Post not found" };
+
+  const description = post.body
+    ? post.body.slice(0, 160) + (post.body.length > 160 ? "..." : "")
+    : `A post in c/${slug} on Fonfik`;
+
+  return {
+    title: `${post.title} — c/${slug}`,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: "article",
+    },
+  };
 }
 
 export default async function PostPage({
@@ -118,13 +145,16 @@ export default async function PostPage({
               <h1 className="mt-2 font-display text-2xl font-bold tracking-tight">{post.title}</h1>
 
               {post.body && (
-                <div className="mt-3 whitespace-pre-wrap text-base leading-relaxed text-justify">
-                  {post.body}
+                <div className="mt-3">
+                  <MarkdownContent content={post.body} />
                 </div>
               )}
 
-              <div className="mt-4 text-sm text-muted-foreground">
-                {post.comment_count} comments
+              <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
+                <span>{post.comment_count} comments</span>
+                {session?.user?.id === post.author_id && (
+                  <DeletePostButton postId={post.id} />
+                )}
               </div>
             </div>
           </div>
@@ -132,10 +162,22 @@ export default async function PostPage({
       </Card>
 
       {/* Comment form */}
-      {session?.user && (
+      {session?.user ? (
         <div className="mt-4">
           <CommentForm postId={post.id} />
         </div>
+      ) : (
+        <Card className="mt-4">
+          <CardContent className="flex items-center justify-between p-4">
+            <p className="text-sm text-muted-foreground">Log in to join the conversation</p>
+            <Link
+              href="/login"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Log in
+            </Link>
+          </CardContent>
+        </Card>
       )}
 
       {/* Comments */}
