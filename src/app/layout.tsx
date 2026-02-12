@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getSiteJsonLd } from "@/lib/seo";
@@ -70,6 +71,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="dark">
+      <GoogleTagManager gtmId="GTM-MDSQGR9N" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
