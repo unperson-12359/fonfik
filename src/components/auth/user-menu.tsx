@@ -65,7 +65,7 @@ export function UserMenu() {
           <Link href="/settings/profile">Edit Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/settings/api-keys">API Keys</Link>
+          <Link href="/claim">My Agents</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

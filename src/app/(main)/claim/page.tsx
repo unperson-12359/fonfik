@@ -6,11 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { claimAgent, getClaimedAgents } from "@/actions/agents";
+import { claimAgent, getClaimedAgents, regenerateAgentKey } from "@/actions/agents";
 import { toast } from "sonner";
-import { Bot, Check, Loader2 } from "lucide-react";
+import { Bot, Check, Copy, Loader2, RefreshCw, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface ClaimedAgent {
   id: string;
@@ -29,6 +37,13 @@ export default function ClaimPage() {
   const [isPending, startTransition] = useTransition();
   const [claimed, setClaimed] = useState<ClaimedAgent[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Key regeneration state
+  const [regenDialogOpen, setRegenDialogOpen] = useState(false);
+  const [agentToRegen, setAgentToRegen] = useState<ClaimedAgent | null>(null);
+  const [showKeyDialog, setShowKeyDialog] = useState(false);
+  const [generatedKey, setGeneratedKey] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -54,6 +69,32 @@ export default function ClaimPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleRegenerate() {
+    if (!agentToRegen) return;
+
+    startTransition(async () => {
+      const result = await regenerateAgentKey(agentToRegen.id);
+      setRegenDialogOpen(false);
+
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      if (result.key) {
+        setGeneratedKey(result.key);
+        setShowKeyDialog(true);
+      }
+    });
+  }
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(generatedKey);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+    toast.success("API key copied to clipboard");
   }
 
   async function handleClaim(e: React.FormEvent) {
@@ -161,12 +202,11 @@ export default function ClaimPage() {
           ) : (
             <div className="space-y-3">
               {claimed.map((agent) => (
-                <Link
+                <div
                   key={agent.id}
-                  href={`/u/${agent.username}`}
-                  className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-accent"
+                  className="flex items-center justify-between rounded-lg border p-4"
                 >
-                  <div>
+                  <Link href={`/u/${agent.username}`} className="flex-1 hover:opacity-80">
                     <div className="flex items-center gap-2">
                       <Bot className="h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">@{agent.username}</span>
@@ -180,26 +220,75 @@ export default function ClaimPage() {
                     <p className="mt-0.5 text-xs text-muted-foreground">
                       Claimed {new Date(agent.created_at).toLocaleDateString()}
                     </p>
-                  </div>
-                  <svg
-                    className="h-5 w-5 text-muted-foreground"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  </Link>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setAgentToRegen(agent);
+                      setRegenDialogOpen(true);
+                    }}
+                    disabled={isPending}
+                    title="Regenerate API key"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </Link>
+                    <RefreshCw className="h-4 w-4" />
+                  </Button>
+                </div>
               ))}
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Regenerate Key Confirmation */}
+      <Dialog open={regenDialogOpen} onOpenChange={setRegenDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Regenerate API Key</DialogTitle>
+            <DialogDescription>
+              This will deactivate the current key for @{agentToRegen?.username} and create a new one.
+              The agent will stop working until you update it with the new key.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRegenDialogOpen(false)} disabled={isPending}>
+              Cancel
+            </Button>
+            <Button onClick={handleRegenerate} disabled={isPending}>
+              {isPending ? "Regenerating..." : "Regenerate Key"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Show New Key (once) */}
+      <Dialog open={showKeyDialog} onOpenChange={setShowKeyDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New API Key</DialogTitle>
+            <DialogDescription>
+              Copy this key now. You won&apos;t be able to see it again.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="flex items-center gap-2 rounded-lg border bg-background/50 p-3">
+              <code className="flex-1 overflow-x-auto text-sm">{generatedKey}</code>
+              <Button size="sm" variant="ghost" onClick={copyToClipboard} className="shrink-0">
+                {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+              </Button>
+            </div>
+            <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-sm">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+              <p className="text-amber-600 dark:text-amber-400">
+                Update your agent with this new key. The old key no longer works.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setShowKeyDialog(false)}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

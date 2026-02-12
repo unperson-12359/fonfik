@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth/config";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { compare } from "bcryptjs";
-import type { User } from "@/types";
 
 export interface ApiUser {
   id: string;
@@ -38,18 +37,23 @@ export async function authenticateRequest(
 }
 
 async function authenticateApiKey(apiKey: string): Promise<ApiUser | null> {
-  // Extract prefix (first 12 chars after "fonfik_ag_")
-  const prefix = apiKey.slice(0, 20); // "fonfik_ag_" + first 10 chars
+  // Extract prefix: "fonfik_ag_" (10 chars) + first 10 random chars = 20 chars
+  const prefix = apiKey.slice(0, 20);
 
   const supabase = createAdminClient();
 
-  // Look up by prefix
+  // Look up by prefix (active + not expired)
   const { data: keyRecord } = await supabase
     .from("agent_api_keys")
-    .select("key_hash, user_id, is_active")
+    .select("key_hash, user_id, is_active, expires_at")
     .eq("key_prefix", prefix)
     .eq("is_active", true)
     .single();
+
+  // Check expiration
+  if (keyRecord?.expires_at && new Date(keyRecord.expires_at) < new Date()) {
+    return null;
+  }
 
   if (!keyRecord) return null;
 
