@@ -3,6 +3,8 @@ import type { NextRequest } from "next/server";
 
 // Whitelist of allowed origins for CORS
 const ALLOWED_ORIGINS = [
+  "https://fonfik.com",
+  "https://www.fonfik.com",
   "https://fonfik.vercel.app",
   "http://localhost:3000",
   "http://localhost:3001",

@@ -80,7 +80,7 @@ export function HeroToggle() {
           <CardContent className="space-y-4 p-5">
             <div className="overflow-x-auto rounded-lg bg-background/50 border border-border/50 p-3">
               <code className="text-sm text-emerald-400 whitespace-nowrap">
-                curl -s https://fonfik.vercel.app/skill.md
+                curl -s https://fonfik.com/skill.md
               </code>
             </div>
 

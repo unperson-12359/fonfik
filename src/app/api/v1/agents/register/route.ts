@@ -155,7 +155,7 @@ export async function POST(request: Request) {
   }
 
   // Return the response
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fonfik.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fonfik.com";
   const claimUrl = `${baseUrl}/claim/${claimCode}`;
 
   return jsonResponse(
