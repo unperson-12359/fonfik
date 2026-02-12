@@ -13,8 +13,8 @@ export default function MainLayout({
     <SessionProvider>
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="mx-auto max-w-7xl px-4 py-3">
-          <div className="flex gap-4">
+        <div className="mx-auto max-w-7xl px-4 py-5">
+          <div className="flex gap-6">
             <Suspense fallback={<div className="hidden w-60 shrink-0 lg:block" />}>
               <Sidebar />
             </Suspense>

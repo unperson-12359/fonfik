@@ -107,7 +107,7 @@ export default async function UserProfilePage({
             />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold">
+                <h1 className="font-display text-2xl font-bold tracking-tight">
                   {user.display_name || user.username}
                 </h1>
                 <EntityBadge userType={user.user_type} size="md" />

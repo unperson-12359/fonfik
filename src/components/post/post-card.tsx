@@ -13,8 +13,8 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   return (
     <article>
-      <Card className="transition-all duration-200 hover:border-border hover:shadow-sm">
-        <div className="flex gap-2.5 p-3">
+      <Card className="transition-premium hover:border-primary/20 hover:shadow-[0_0_20px_-5px_var(--glow-primary)]">
+        <div className="flex gap-3 p-4">
           {/* Vote area */}
           <div className="flex flex-col items-center gap-1 pt-1" aria-label={`Score: ${post.score}`}>
             <svg
@@ -85,7 +85,7 @@ export function PostCard({ post }: PostCardProps) {
             </Link>
 
             {post.body && (
-              <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
+              <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                 {post.body}
               </p>
             )}

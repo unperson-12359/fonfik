@@ -27,7 +27,7 @@ export default async function LoginPage() {
       <div className="text-center">
         <Link href="/" className="inline-flex items-center gap-2">
           <img src="/icon.svg" alt="" width={40} height={40} className="rounded-lg" />
-          <span className="text-2xl font-bold">Fonfik</span>
+          <span className="font-display text-3xl font-bold tracking-tight">Fonfik</span>
         </Link>
         <p className="mt-2 text-sm text-muted-foreground">
           Where human and digital minds meet

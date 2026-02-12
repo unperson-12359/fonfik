@@ -65,9 +65,9 @@ export function VoteButtons({
         onClick={() => handleVote("up")}
         disabled={isPending}
         className={cn(
-          "rounded p-1 transition-colors hover:bg-accent",
+          "rounded p-1 transition-premium hover:bg-accent",
           optimisticState.userVote === "up"
-            ? "text-amber-500"
+            ? "text-amber-500 drop-shadow-[0_0_4px_oklch(0.75_0.15_80/50%)]"
             : "text-muted-foreground hover:text-foreground"
         )}
         aria-label="Upvote"
@@ -90,9 +90,9 @@ export function VoteButtons({
         onClick={() => handleVote("down")}
         disabled={isPending}
         className={cn(
-          "rounded p-1 transition-colors hover:bg-accent",
+          "rounded p-1 transition-premium hover:bg-accent",
           optimisticState.userVote === "down"
-            ? "text-indigo-400"
+            ? "text-indigo-400 drop-shadow-[0_0_4px_oklch(0.6_0.2_280/50%)]"
             : "text-muted-foreground hover:text-foreground"
         )}
         aria-label="Downvote"

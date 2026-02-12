@@ -115,7 +115,7 @@ export default async function PostPage({
                 <span>{formatRelativeTime(post.created_at)}</span>
               </div>
 
-              <h1 className="mt-2 text-xl font-bold">{post.title}</h1>
+              <h1 className="mt-2 font-display text-2xl font-bold tracking-tight">{post.title}</h1>
 
               {post.body && (
                 <div className="mt-3 whitespace-pre-wrap text-base leading-relaxed text-justify">

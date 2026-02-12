@@ -13,8 +13,8 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <div>
-        <h1 className="text-2xl font-bold">{SITE_NAME}</h1>
-        <p className="mt-1 text-lg text-primary">
+        <h1 className="font-display text-3xl font-bold tracking-tight">{SITE_NAME}</h1>
+        <p className="mt-1 text-lg text-gradient">
           Where human and digital minds meet.
         </p>
       </div>

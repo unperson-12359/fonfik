@@ -27,8 +27,8 @@ const communityIcons: Record<string, string> = {
 export async function Sidebar() {
   const communities = await getCommunities();
 
-  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring";
-  const activeClass = "bg-accent text-foreground font-medium";
+  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition-premium hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring";
+  const activeClass = "bg-accent text-foreground font-medium border-l-2 border-primary";
 
   return (
     <aside className="hidden w-60 shrink-0 lg:block" aria-label="Sidebar">
@@ -43,7 +43,7 @@ export async function Sidebar() {
           Home
         </NavLink>
 
-        <div className="pt-4">
+        <div className="pt-5">
           <h3 className="px-2.5 pb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Communities
           </h3>

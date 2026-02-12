@@ -50,7 +50,7 @@ export default async function HomePage({
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        <h1 className="text-xl font-bold">Home</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Home</h1>
         <div className="flex gap-1 rounded-lg bg-muted p-1 text-sm">
           <SortLink sort="hot" active={sort === "hot"} label="Hot" />
           <SortLink sort="new" active={sort === "new"} label="New" />

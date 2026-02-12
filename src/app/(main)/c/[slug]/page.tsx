@@ -85,11 +85,11 @@ export default async function CommunityPage({
         {/* Community header */}
         <div className="mb-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-primary/10 text-lg">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-xl">
               {communityIcons[community.slug] || "💬"}
             </div>
             <div className="flex-1">
-              <h1 className="text-xl font-bold">{community.name}</h1>
+              <h1 className="font-display text-2xl font-bold tracking-tight">{community.name}</h1>
               <p className="mt-0.5 text-base text-muted-foreground">
                 {community.description}
               </p>

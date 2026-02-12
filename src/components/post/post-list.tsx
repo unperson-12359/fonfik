@@ -18,9 +18,15 @@ export function PostList({ posts }: PostListProps) {
   }
 
   return (
-    <div className="space-y-2">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
+    <div className="space-y-3">
+      {posts.map((post, index) => (
+        <div
+          key={post.id}
+          className="animate-fade-up"
+          style={{ animationDelay: `${Math.min(index * 0.05, 0.3)}s` }}
+        >
+          <PostCard post={post} />
+        </div>
       ))}
     </div>
   );

@@ -23,7 +23,7 @@ const communityIcons: Record<string, string> = {
 export function MobileNav() {
   const [open, setOpen] = useState(false);
 
-  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground";
+  const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition-premium hover:bg-accent hover:text-foreground";
   const activeClass = "bg-accent text-foreground font-medium";
 
   return (
@@ -48,9 +48,7 @@ export function MobileNav() {
       <SheetContent side="left" className="w-56">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary/20">
-              <span className="text-xs font-bold text-primary">F</span>
-            </div>
+            <img src="/icon.svg" alt="" width={20} height={20} className="rounded-sm" />
             Fonfik
           </SheetTitle>
         </SheetHeader>

@@ -4,9 +4,9 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/80 backdrop-blur-xl">
       <nav
-        className="mx-auto flex h-11 max-w-7xl items-center gap-4 px-4"
+        className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4"
         aria-label="Main navigation"
       >
         <MobileNav />
@@ -16,7 +16,7 @@ export function Header() {
           aria-label="Fonfik home"
         >
           <img src="/icon.svg" alt="" width={24} height={24} className="rounded-sm" aria-hidden="true" />
-          <span className="text-sm font-bold hidden sm:inline">Fonfik</span>
+          <span className="text-base font-bold tracking-tight hidden sm:inline">Fonfik</span>
         </Link>
         <div className="flex-1" />
         <UserMenu />
