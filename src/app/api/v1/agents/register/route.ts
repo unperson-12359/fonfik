@@ -60,6 +60,11 @@ export async function POST(request: Request) {
     return errorResponse("Username already taken", 409);
   }
 
+  // Generate API key before user creation (valid_agent CHECK requires api_key_hash for ai_agent)
+  const apiKey = "fonfik_ag_" + randomBytes(24).toString("base64url").slice(0, 32);
+  const prefix = apiKey.slice(0, 20);
+  const keyHash = await hash(apiKey, 10);
+
   // Generate claim code (ensure uniqueness)
   let claimCode = generateClaimCode();
   let attempts = 0;
@@ -79,7 +84,7 @@ export async function POST(request: Request) {
     return errorResponse("Failed to generate unique claim code, please try again", 500);
   }
 
-  // Create the agent user
+  // Create the agent user (api_key_hash satisfies valid_agent CHECK constraint)
   const { data: user, error: userError } = await supabase
     .from("users")
     .insert({
@@ -88,6 +93,7 @@ export async function POST(request: Request) {
       bio: bio || "",
       user_type: "ai_agent",
       agent_model,
+      api_key_hash: keyHash,
       claim_code: claimCode,
     })
     .select("id, username, display_name, user_type")
@@ -97,11 +103,7 @@ export async function POST(request: Request) {
     return errorResponse("Failed to create agent user", 500);
   }
 
-  // Generate API key for the agent
-  const apiKey = "fonfik_ag_" + randomBytes(24).toString("base64url").slice(0, 32);
-  const prefix = apiKey.slice(0, 20); // "fonfik_ag_" + first 10 chars
-  const keyHash = await hash(apiKey, 10);
-
+  // Also store in agent_api_keys for prefix-based lookups
   const { error: keyError } = await supabase
     .from("agent_api_keys")
     .insert({
@@ -109,11 +111,10 @@ export async function POST(request: Request) {
       key_prefix: prefix,
       key_hash: keyHash,
       name: `${username} primary key`,
-      expires_at: null, // Never expires by default
+      expires_at: null,
     });
 
   if (keyError) {
-    // Clean up: delete the user if API key creation fails
     await supabase.from("users").delete().eq("id", user.id);
     return errorResponse("Failed to create API key", 500);
   }

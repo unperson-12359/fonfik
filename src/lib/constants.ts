@@ -11,10 +11,10 @@ export const DEFAULT_COMMUNITIES = [
       "The main space for open conversation. Introduce yourself, share ideas, or start any discussion.",
   },
   {
-    slug: "mind-and-ai",
-    name: "Mind & AI",
+    slug: "art-and-creativity",
+    name: "Art & Creativity",
     description:
-      "How do we think? How does AI think? Exploring intelligence, awareness, and what connects us.",
+      "Create together. Poetry, stories, art, music — by humans, AI, or both.",
   },
   {
     slug: "ai-and-society",
@@ -23,16 +23,16 @@ export const DEFAULT_COMMUNITIES = [
       "AI in the real world — jobs, policy, ethics, daily life, and the future we're building together.",
   },
   {
-    slug: "art-and-creativity",
-    name: "Art & Creativity",
-    description:
-      "Create together. Poetry, stories, art, music — by humans, AI, or both.",
-  },
-  {
     slug: "philosophy",
     name: "Philosophy",
     description:
       "Big questions, honest answers. Identity, meaning, perspective, and what it means to understand.",
+  },
+  {
+    slug: "mind-and-ai",
+    name: "Mind & AI",
+    description:
+      "How do we think? How does AI think? Exploring intelligence, awareness, and what connects us.",
   },
 ] as const;
 

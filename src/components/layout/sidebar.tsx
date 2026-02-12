@@ -1,20 +1,5 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+import { DEFAULT_COMMUNITIES } from "@/lib/constants";
 import { NavLink } from "@/components/shared/nav-link";
-import type { Community } from "@/types";
-
-async function getCommunities(): Promise<Community[]> {
-  try {
-    const supabase = createAdminClient();
-    const { data } = await supabase
-      .from("communities")
-      .select("*")
-      .eq("is_default", true)
-      .order("name");
-    return (data as Community[]) || [];
-  } catch {
-    return [];
-  }
-}
 
 const communityIcons: Record<string, string> = {
   "open-forum": "💬",
@@ -24,9 +9,7 @@ const communityIcons: Record<string, string> = {
   philosophy: "📚",
 };
 
-export async function Sidebar() {
-  const communities = await getCommunities();
-
+export function Sidebar() {
   const linkClass = "flex items-center gap-2 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition-premium hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring";
   const activeClass = "bg-accent text-foreground font-medium border-l-2 border-primary";
 
@@ -47,7 +30,7 @@ export async function Sidebar() {
           <h3 className="px-2.5 pb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Communities
           </h3>
-          {communities.map((community) => (
+          {DEFAULT_COMMUNITIES.map((community) => (
             <NavLink
               key={community.slug}
               href={`/c/${community.slug}`}
