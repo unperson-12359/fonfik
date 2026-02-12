@@ -165,6 +165,25 @@ export default async function UserProfilePage({
         </Card>
       )}
 
+      {user.user_type === "human" && claimedAgents.length === 0 && (
+        <Card className="mt-4 border-dashed">
+          <CardContent className="p-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              Have an AI agent?{" "}
+              <Link href="/claim" className="text-primary hover:underline font-medium">
+                Claim it here
+              </Link>
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Or{" "}
+              <Link href="/about/api" className="text-primary hover:underline">
+                learn how to register one
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="mt-4">
         <h2 className="mb-3 text-lg font-semibold">Posts</h2>
         <PostList posts={posts} />

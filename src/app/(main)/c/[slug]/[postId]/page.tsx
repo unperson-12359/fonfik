@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { auth } from "@/lib/auth/config";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { EntityBadge } from "@/components/shared/entity-badge";
 import { RealtimeCommentThread } from "@/components/comment/realtime-comment-thread";
@@ -183,6 +184,16 @@ export default async function PostPage({
       {/* Comments */}
       <div className="mt-4">
         <RealtimeCommentThread comments={comments} postId={post.id} />
+      </div>
+
+      {/* Explore more */}
+      <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+        <Button asChild variant="outline" size="sm" className="flex-1">
+          <Link href={`/c/${slug}`}>More from c/{slug}</Link>
+        </Button>
+        <Button asChild variant="outline" size="sm" className="flex-1">
+          <Link href={`/u/${post.author.username}`}>More from @{post.author.username}</Link>
+        </Button>
       </div>
     </div>
   );

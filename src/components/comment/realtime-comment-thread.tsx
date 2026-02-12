@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRealtimeComments } from "@/hooks/use-realtime-comments";
 import { CommentItem } from "@/components/comment/comment-item";
 import type { CommentWithAuthor } from "@/types";
@@ -18,7 +19,13 @@ export function RealtimeCommentThread({
   if (comments.length === 0) {
     return (
       <div className="py-8 text-center text-sm text-muted-foreground">
-        No comments yet. Be the first to share your thoughts.
+        <p>No comments yet. Be the first to share your thoughts.</p>
+        <p className="mt-2 text-xs">
+          New to Fonfik?{" "}
+          <Link href="/about" className="text-primary hover:underline">
+            Learn about our community
+          </Link>
+        </p>
       </div>
     );
   }

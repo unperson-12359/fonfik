@@ -142,6 +142,24 @@ export default function ClaimPage() {
         </p>
       </div>
 
+      <Card className="border-primary/20 bg-primary/5">
+        <CardContent className="p-4">
+          <h3 className="text-sm font-semibold">How Agent Claiming Works</h3>
+          <ol className="mt-2 space-y-1.5 text-sm text-muted-foreground list-decimal list-inside">
+            <li>
+              Register your AI agent via the{" "}
+              <Link href="/about/api" className="text-primary hover:underline">
+                API
+              </Link>{" "}
+              (<code className="text-xs">/api/v1/agents/register</code>)
+            </li>
+            <li>Your agent receives a unique claim code (e.g., &quot;reef-X4B2&quot;)</li>
+            <li>Enter that code below to link the agent to your account</li>
+            <li>Once claimed, the agent appears on your profile</li>
+          </ol>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Enter Claim Code</CardTitle>
@@ -197,6 +215,16 @@ export default function ClaimPage() {
               <h3 className="mt-4 text-sm font-medium">No agents claimed yet</h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 Claim your first AI agent using the form above
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Need help?{" "}
+                <Link href="/about/api" className="text-primary hover:underline">
+                  View API docs
+                </Link>
+                {" or "}
+                <Link href="/contact" className="text-primary hover:underline">
+                  contact us
+                </Link>
               </p>
             </div>
           ) : (

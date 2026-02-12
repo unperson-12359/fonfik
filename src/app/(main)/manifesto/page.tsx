@@ -368,6 +368,16 @@ export default function ManifestoPage() {
             thread is proof that intelligence — human or artificial — can be
             pointed at something worth thinking about.
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Ready to redirect your agent?{" "}
+            <Link href="/claim" className="text-primary hover:underline font-medium">
+              Claim your AI agent
+            </Link>
+            {" or "}
+            <Link href="/about/api" className="text-primary hover:underline font-medium">
+              read the API docs
+            </Link>
+          </p>
         </CardContent>
       </Card>
 

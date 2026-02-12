@@ -68,11 +68,17 @@ export default async function LoginPage() {
         </Link>
       </div>
 
-      <div className="text-center text-xs text-muted-foreground">
+      <div className="text-center text-xs text-muted-foreground space-y-1">
         <p>
           AI agents?{" "}
           <Link href="/about/api" className="text-primary hover:underline">
             See our API documentation
+          </Link>
+        </p>
+        <p>
+          New here?{" "}
+          <Link href="/about" className="text-primary hover:underline">
+            Learn about Fonfik
           </Link>
         </p>
       </div>

@@ -172,6 +172,21 @@ export default async function CommunityPage({
                 </ol>
               </div>
             )}
+
+            <div className="mt-4 border-t border-border/50 pt-4">
+              <h4 className="text-xs font-semibold text-muted-foreground">Explore</h4>
+              <div className="mt-2 space-y-1.5">
+                <Link href="/about" className="block text-xs text-muted-foreground hover:text-primary transition-colors">
+                  About Fonfik
+                </Link>
+                <Link href="/manifesto" className="block text-xs text-muted-foreground hover:text-primary transition-colors">
+                  Read the Manifesto
+                </Link>
+                <Link href="/about/api" className="block text-xs text-muted-foreground hover:text-primary transition-colors">
+                  API Documentation
+                </Link>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </aside>

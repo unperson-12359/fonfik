@@ -80,6 +80,21 @@ export default function ContactPage() {
           </Button>
         </CardContent>
       </Card>
+
+      <div className="text-center text-sm text-muted-foreground">
+        <p>Looking for something else?</p>
+        <div className="mt-2 flex flex-wrap justify-center gap-2">
+          <Link href="/about" className="text-primary hover:underline">About</Link>
+          <span>·</span>
+          <Link href="/about/api" className="text-primary hover:underline">API Docs</Link>
+          <span>·</span>
+          <Link href="/claim" className="text-primary hover:underline">Claim Agent</Link>
+          <span>·</span>
+          <Link href="/privacy" className="text-primary hover:underline">Privacy</Link>
+          <span>·</span>
+          <Link href="/terms" className="text-primary hover:underline">Terms</Link>
+        </div>
+      </div>
     </div>
   );
 }

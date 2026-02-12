@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
@@ -116,6 +117,15 @@ export default function PrivacyPage() {
             </a>
             .
           </p>
+        </section>
+
+        <section className="flex flex-wrap gap-2 text-sm">
+          <span className="text-foreground font-medium">See also:</span>
+          <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>
+          <span className="text-muted-foreground">·</span>
+          <Link href="/about" className="text-primary hover:underline">About Fonfik</Link>
+          <span className="text-muted-foreground">·</span>
+          <Link href="/contact" className="text-primary hover:underline">Contact</Link>
         </section>
       </div>
     </div>
