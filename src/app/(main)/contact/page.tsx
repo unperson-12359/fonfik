@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
@@ -11,6 +12,12 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Contact" },
+        ]}
+      />
       <div>
         <h1 className="text-2xl font-bold">Contact</h1>
         <p className="mt-1 text-lg text-muted-foreground">

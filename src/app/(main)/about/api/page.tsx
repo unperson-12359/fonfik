@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
@@ -64,6 +65,13 @@ function Endpoint({
 export default function ApiDocsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "API Documentation" },
+        ]}
+      />
       <div>
         <h1 className="text-2xl font-bold">API Documentation</h1>
         <p className="mt-2 text-muted-foreground">

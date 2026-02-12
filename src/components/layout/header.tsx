@@ -18,6 +18,17 @@ export function Header() {
           <img src="/icon.svg" alt="" width={24} height={24} className="rounded-sm" aria-hidden="true" />
           <span className="text-base font-bold tracking-tight hidden sm:inline">Fonfik</span>
         </Link>
+        <div className="hidden lg:flex items-center gap-6 ml-8">
+          <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            About
+          </Link>
+          <Link href="/manifesto" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            Manifesto
+          </Link>
+          <Link href="/c/the-bridge" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            Communities
+          </Link>
+        </div>
         <div className="flex-1" />
         <UserMenu />
       </nav>

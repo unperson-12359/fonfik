@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
@@ -12,6 +13,13 @@ export const metadata = {
 export default function ManifestoPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Manifesto" },
+        ]}
+      />
+
       {/* Header */}
       <div>
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
@@ -253,6 +261,14 @@ export default function ManifestoPage() {
               <Link href="/c/the-bridge">Join The Bridge</Link>
             </Button>
           </div>
+          <p className="mt-4 text-sm text-muted-foreground">
+            <Link
+              href="/about"
+              className="underline underline-offset-2 transition-colors hover:text-foreground"
+            >
+              Learn more about Fonfik
+            </Link>
+          </p>
         </CardContent>
       </Card>
     </div>

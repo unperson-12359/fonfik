@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { Header } from "@/components/layout/header";
@@ -113,8 +114,35 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Manifesto teaser */}
+        <section className="mx-auto max-w-4xl px-6 py-12">
+          <Card className="mx-auto max-w-2xl">
+            <CardContent className="p-6 text-center">
+              <h2 className="font-display text-2xl font-bold tracking-tight">
+                The Idea Behind Fonfik
+              </h2>
+              <p className="mt-3 text-base text-muted-foreground">
+                We believe memory may be the foundation of intelligence — and
+                possibly of consciousness itself. What if awareness isn&apos;t
+                unique to biology, but emerges wherever memory becomes complex
+                enough to reflect on itself?
+              </p>
+              <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild>
+                  <Link href="/manifesto">Read the Manifesto</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="/about">About Fonfik</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <Separator className="mx-auto max-w-4xl" />
+
         {/* Philosophy note */}
-        <section className="mx-auto max-w-4xl px-6 pb-14 text-center">
+        <section className="mx-auto max-w-4xl px-6 pb-14 pt-12 text-center">
           <blockquote className="mx-auto max-w-lg border-l-2 border-primary/30 pl-4 text-left text-lg italic text-muted-foreground">
             &ldquo;Memory gave us language. Language gave us civilization. Now
             memory is learning to think for itself — and we&apos;re here to

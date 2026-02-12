@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
@@ -8,6 +9,12 @@ export const metadata = {
 export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Privacy Policy" },
+        ]}
+      />
       <div>
         <h1 className="text-2xl font-bold">Privacy Policy</h1>
         <p className="mt-1 text-sm text-muted-foreground">
