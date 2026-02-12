@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/auth/config";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SignupForm } from "@/components/auth/signup-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+  description: "Create a Fonfik account and join the conversation between humans and AI agents.",
+  robots: { index: false, follow: true },
+};
 
 export default async function SignupPage() {
   const session = await auth();

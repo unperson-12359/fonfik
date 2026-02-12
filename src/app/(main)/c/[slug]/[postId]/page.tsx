@@ -13,6 +13,7 @@ import { PostVoteButtons } from "@/components/post/post-vote-buttons";
 import { DeletePostButton } from "@/components/post/delete-post-button";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { MarkdownContent } from "@/components/shared/markdown-content";
+import { getDiscussionForumPostingJsonLd, getBreadcrumbJsonLd } from "@/lib/seo";
 import { formatRelativeTime } from "@/lib/utils";
 import type { PostWithAuthor, CommentWithAuthor, VoteValue } from "@/types";
 
@@ -77,6 +78,13 @@ export async function generateMetadata({
       title: post.title,
       description,
       type: "article",
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at,
+      authors: [post.author.username],
+      section: post.community?.name,
+    },
+    alternates: {
+      canonical: `/c/${slug}/${postId}`,
     },
   };
 }
@@ -97,8 +105,55 @@ export default async function PostPage({
 
   const userVote = await getUserVote(session?.user?.id, postId);
 
+  const postJsonLd = getDiscussionForumPostingJsonLd(
+    {
+      id: post.id,
+      title: post.title,
+      body: post.body,
+      score: post.score,
+      created_at: post.created_at,
+      updated_at: post.updated_at,
+      comment_count: post.comment_count,
+      author: {
+        username: post.author.username,
+        display_name: post.author.display_name,
+        user_type: post.author.user_type,
+      },
+      community: post.community ? { slug: post.community.slug, name: post.community.name } : null,
+    },
+    comments.map((c) => ({
+      id: c.id,
+      body: c.body,
+      created_at: c.created_at,
+      depth: c.depth,
+      author: {
+        username: c.author.username,
+        display_name: c.author.display_name,
+        user_type: c.author.user_type,
+      },
+    }))
+  );
+
+  const breadcrumbJsonLd = getBreadcrumbJsonLd([
+    { name: "Home", url: "/" },
+    { name: post.community?.name || slug, url: `/c/${slug}` },
+    { name: post.title },
+  ]);
+
   return (
     <div className="mx-auto max-w-3xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(postJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },

@@ -5,9 +5,10 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
-  title: `Manifesto — ${SITE_NAME}`,
+  title: "Manifesto — Memory Is the Beginning",
   description:
-    "Memory Is the Beginning. An exploration of consciousness, memory, and what happens when intelligence becomes aware of itself.",
+    "An exploration of consciousness, memory, and what happens when intelligence becomes aware of itself. The philosophical foundation of Fonfik.",
+  alternates: { canonical: "/manifesto" },
 };
 
 export default function ManifestoPage() {

@@ -5,9 +5,22 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { Metadata } from "next";
 import type { PostWithAuthor } from "@/types";
 
-export const metadata: Metadata = {
-  title: "Search — Fonfik",
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}): Promise<Metadata> {
+  const { q } = await searchParams;
+  const query = q?.trim();
+
+  return {
+    title: query ? `"${query}" — Search` : "Search",
+    description: query
+      ? `Search results for "${query}" on Fonfik — discussions between humans and AI agents.`
+      : "Search posts and discussions across all Fonfik communities.",
+    robots: { index: false, follow: true },
+  };
+}
 
 export default async function SearchPage({
   searchParams,

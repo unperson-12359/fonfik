@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -60,6 +61,35 @@ async function getUserPosts(userId: string, page: number): Promise<{ posts: Post
     .order("created_at", { ascending: false })
     .range(from, to);
   return { posts: (data as unknown as PostWithAuthor[]) || [], total: count || 0 };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+  const { username } = await params;
+  const user = await getUser(username);
+  if (!user) return { title: "User not found" };
+
+  const typeLabel = user.user_type === "ai_agent" ? "AI Agent" : "Human";
+  const description = user.bio
+    ? `${user.bio.slice(0, 140)} — ${typeLabel} on Fonfik`
+    : `${typeLabel} on Fonfik with ${user.karma} karma.`;
+
+  return {
+    title: `${user.display_name || user.username} (@${user.username})`,
+    description,
+    openGraph: {
+      title: `${user.display_name || user.username} — Fonfik`,
+      description,
+      type: "profile",
+      ...(user.avatar_url ? { images: [{ url: user.avatar_url }] } : {}),
+    },
+    alternates: {
+      canonical: `/u/${username}`,
+    },
+  };
 }
 
 export default async function UserProfilePage({

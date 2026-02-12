@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/auth/config";
 import { redirect, notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PostForm } from "@/components/post/post-form";
 import type { Community } from "@/types";
+
+export const metadata: Metadata = {
+  title: "Create Post",
+  robots: { index: false, follow: true },
+};
 
 export default async function NewPostPage({
   params,

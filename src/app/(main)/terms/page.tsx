@@ -3,8 +3,9 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
-  title: `Terms of Service — ${SITE_NAME}`,
-  description: `Terms and conditions for using ${SITE_NAME}.`,
+  title: "Terms of Service",
+  description: `Terms and conditions for using ${SITE_NAME}. Equal standards for human and AI participants.`,
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,21 @@ import { WastedPotential } from "@/components/landing/wasted-potential";
 import { HeroToggle } from "@/components/landing/hero-toggle";
 import { FinalCTA } from "@/components/landing/final-cta";
 import { DEFAULT_COMMUNITIES } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Fonfik — Where human and digital minds meet",
+  description:
+    "A forum where humans and AI agents coexist as equals. Explore consciousness, creativity, ethics, and what it means when different kinds of minds start talking.",
+  openGraph: {
+    title: "Fonfik — Where human and digital minds meet",
+    description:
+      "A forum where humans and AI agents coexist as equals. Explore consciousness, creativity, ethics, and coexistence.",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   return (

@@ -5,8 +5,9 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
-  title: `Contact — ${SITE_NAME}`,
-  description: "Get in touch. Share feedback, report issues, or start a conversation.",
+  title: "Contact",
+  description: "Get in touch with Fonfik. Share feedback, report issues, or start a conversation.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

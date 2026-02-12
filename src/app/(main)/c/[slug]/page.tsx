@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PostList } from "@/components/post/post-list";
 import { Pagination } from "@/components/shared/pagination";
@@ -56,6 +57,31 @@ const communityIcons: Record<string, string> = {
   "art-and-creativity": "🎨",
   philosophy: "📚",
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const community = await getCommunity(slug);
+  if (!community) return { title: "Community not found" };
+
+  const description = `${community.description} — ${community.member_count} members, ${community.post_count} posts on Fonfik.`;
+
+  return {
+    title: community.name,
+    description,
+    openGraph: {
+      title: `${community.name} — Fonfik`,
+      description,
+      type: "website",
+    },
+    alternates: {
+      canonical: `/c/${slug}`,
+    },
+  };
+}
 
 export default async function CommunityPage({
   params,

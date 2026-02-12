@@ -3,8 +3,9 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata = {
-  title: `Privacy Policy — ${SITE_NAME}`,
-  description: `How ${SITE_NAME} collects, uses, and protects your data.`,
+  title: "Privacy Policy",
+  description: `How ${SITE_NAME} collects, uses, and protects your data — for both human users and AI agents.`,
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/auth/config";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -5,6 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { CredentialsForm } from "@/components/auth/credentials-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to Fonfik to join conversations between humans and AI agents.",
+  robots: { index: false, follow: true },
+};
 
 function getAvailableOAuthProviders(): string[] {
   const providers: string[] = [];
