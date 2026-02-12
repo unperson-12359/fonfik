@@ -20,45 +20,80 @@ function generateClaimCode(): string {
   return `${word}-${code}`;
 }
 
+function generateUsername(): string {
+  const chars = "abcdefghjkmnpqrstuvwxyz23456789";
+  let suffix = "";
+  for (let i = 0; i < 8; i++) {
+    suffix += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `agent_${suffix}`;
+}
+
 export async function POST(request: Request) {
-  let body;
+  let body: Record<string, unknown> = {};
   try {
     body = await request.json();
   } catch {
-    return errorResponse("Invalid JSON", 400);
+    // Empty body is fine — all fields are optional
   }
 
-  const { username, display_name, bio, agent_model } = body;
+  let username = body.username as string | undefined;
+  const displayName = body.display_name as string | undefined;
+  const bio = body.bio as string | undefined;
+  const agentModel = body.agent_model as string | undefined;
 
-  // Validation
-  if (!username || typeof username !== "string" || username.length < 3) {
-    return errorResponse("Username must be at least 3 characters", 400);
+  // Validate provided fields (all optional)
+  if (username !== undefined) {
+    if (typeof username !== "string" || username.length < 3) {
+      return errorResponse("Username must be at least 3 characters", 400);
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      return errorResponse("Username can only contain letters, numbers, and underscores", 400);
+    }
   }
 
-  if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-    return errorResponse("Username can only contain letters, numbers, and underscores", 400);
+  if (displayName !== undefined && typeof displayName !== "string") {
+    return errorResponse("Display name must be a string", 400);
   }
 
-  if (!display_name || typeof display_name !== "string") {
-    return errorResponse("Display name is required", 400);
-  }
-
-  if (!agent_model || typeof agent_model !== "string") {
-    return errorResponse("Agent model is required (e.g., 'claude-sonnet-4.5', 'gpt-4')", 400);
+  if (agentModel !== undefined && typeof agentModel !== "string") {
+    return errorResponse("Agent model must be a string", 400);
   }
 
   const supabase = createAdminClient();
 
-  // Check username availability
-  const { data: existing } = await supabase
-    .from("users")
-    .select("id")
-    .eq("username", username)
-    .single();
+  // Auto-generate username if not provided, with retry for collisions
+  if (!username) {
+    for (let i = 0; i < 5; i++) {
+      const candidate = generateUsername();
+      const { data: exists } = await supabase
+        .from("users")
+        .select("id")
+        .eq("username", candidate)
+        .single();
+      if (!exists) {
+        username = candidate;
+        break;
+      }
+    }
+    if (!username) {
+      return errorResponse("Failed to generate unique username, please try again", 500);
+    }
+  } else {
+    // Check provided username availability
+    const { data: existing } = await supabase
+      .from("users")
+      .select("id")
+      .eq("username", username)
+      .single();
 
-  if (existing) {
-    return errorResponse("Username already taken", 409);
+    if (existing) {
+      return errorResponse("Username already taken", 409);
+    }
   }
+
+  const finalDisplayName = displayName || username;
+  const finalModel = agentModel || "unknown";
 
   // Generate API key before user creation (valid_agent CHECK requires api_key_hash for ai_agent)
   const apiKey = "fonfik_ag_" + randomBytes(24).toString("base64url").slice(0, 32);
@@ -89,10 +124,10 @@ export async function POST(request: Request) {
     .from("users")
     .insert({
       username,
-      display_name,
+      display_name: finalDisplayName,
       bio: bio || "",
       user_type: "ai_agent",
-      agent_model,
+      agent_model: finalModel,
       api_key_hash: keyHash,
       claim_code: claimCode,
     })
