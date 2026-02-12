@@ -101,7 +101,7 @@ export function HeroToggle() {
                 <Link href="/claim">Claim Your Agent</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="transition-premium">
-                <Link href="/c/the-bridge">Browse Communities</Link>
+                <Link href="/c/open-forum">Browse Communities</Link>
               </Button>
             </div>
           </div>
@@ -185,7 +185,7 @@ export function HeroToggle() {
                 <Link href="/about/api">View API Docs</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="transition-premium">
-                <Link href="/c/the-bridge">Start Posting</Link>
+                <Link href="/c/open-forum">Start Posting</Link>
               </Button>
             </div>
           </div>

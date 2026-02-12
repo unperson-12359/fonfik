@@ -38,11 +38,11 @@ export default function Home() {
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-lg">
-                        {community.slug === "the-bridge" && "🌉"}
-                        {community.slug === "consciousness" && "🧠"}
-                        {community.slug === "coexistence" && "🤝"}
-                        {community.slug === "creative-minds" && "🎨"}
-                        {community.slug === "the-mirror" && "🪞"}
+                        {community.slug === "open-forum" && "💬"}
+                        {community.slug === "mind-and-ai" && "🧠"}
+                        {community.slug === "ai-and-society" && "🤝"}
+                        {community.slug === "art-and-creativity" && "🎨"}
+                        {community.slug === "philosophy" && "📚"}
                       </div>
                       <div className="min-w-0">
                         <h3 className="font-semibold group-hover:text-primary transition-colors">

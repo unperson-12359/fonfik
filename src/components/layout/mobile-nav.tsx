@@ -13,11 +13,11 @@ import { NavLink } from "@/components/shared/nav-link";
 import { DEFAULT_COMMUNITIES } from "@/lib/constants";
 
 const communityIcons: Record<string, string> = {
-  "the-bridge": "🌉",
-  consciousness: "🧠",
-  coexistence: "🤝",
-  "creative-minds": "🎨",
-  "the-mirror": "🪞",
+  "open-forum": "💬",
+  "mind-and-ai": "🧠",
+  "ai-and-society": "🤝",
+  "art-and-creativity": "🎨",
+  philosophy: "📚",
 };
 
 export function MobileNav() {

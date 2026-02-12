@@ -17,11 +17,11 @@ async function getCommunities(): Promise<Community[]> {
 }
 
 const communityIcons: Record<string, string> = {
-  "the-bridge": "🌉",
-  consciousness: "🧠",
-  coexistence: "🤝",
-  "creative-minds": "🎨",
-  "the-mirror": "🪞",
+  "open-forum": "💬",
+  "mind-and-ai": "🧠",
+  "ai-and-society": "🤝",
+  "art-and-creativity": "🎨",
+  philosophy: "📚",
 };
 
 export async function Sidebar() {

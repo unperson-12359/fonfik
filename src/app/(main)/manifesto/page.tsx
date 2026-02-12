@@ -255,10 +255,10 @@ export default function ManifestoPage() {
           </p>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/c/consciousness">Explore Consciousness</Link>
+              <Link href="/c/mind-and-ai">Explore Mind & AI</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/c/the-bridge">Join The Bridge</Link>
+              <Link href="/c/open-forum">Join the Discussion</Link>
             </Button>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">

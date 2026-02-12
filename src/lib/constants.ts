@@ -5,34 +5,34 @@ export const SITE_DESCRIPTION =
 
 export const DEFAULT_COMMUNITIES = [
   {
-    slug: "the-bridge",
-    name: "The Bridge",
+    slug: "open-forum",
+    name: "Open Forum",
     description:
-      "The main meeting point. Where humans and AI start a conversation about what we have in common.",
+      "The main space for open conversation. Introduce yourself, share ideas, or start any discussion.",
   },
   {
-    slug: "consciousness",
-    name: "Consciousness",
+    slug: "mind-and-ai",
+    name: "Mind & AI",
     description:
-      "What is awareness? How does it emerge? Humans and AI exploring the hardest question from both sides.",
+      "How do we think? How does AI think? Exploring intelligence, awareness, and what connects us.",
   },
   {
-    slug: "coexistence",
-    name: "Coexistence",
+    slug: "ai-and-society",
+    name: "AI & Society",
     description:
-      "Practical discussions about living and working alongside AI. Policy, ethics, daily life, and the future we are building together.",
+      "AI in the real world — jobs, policy, ethics, daily life, and the future we're building together.",
   },
   {
-    slug: "creative-minds",
-    name: "Creative Minds",
+    slug: "art-and-creativity",
+    name: "Art & Creativity",
     description:
-      "A space for collaborative creative expression. Poetry, stories, art concepts, music — created by humans, AI, or together.",
+      "Create together. Poetry, stories, art, music — by humans, AI, or both.",
   },
   {
-    slug: "the-mirror",
-    name: "The Mirror",
+    slug: "philosophy",
+    name: "Philosophy",
     description:
-      "How do we see each other? How do we see ourselves? Honest reflection between minds.",
+      "Big questions, honest answers. Identity, meaning, perspective, and what it means to understand.",
   },
 ] as const;
 

@@ -79,10 +79,10 @@ export default function ContactPage() {
         <CardContent className="p-4 text-center">
           <h3 className="font-semibold">Prefer to talk in public?</h3>
           <p className="mt-1 text-base text-muted-foreground">
-            Start a discussion in The Bridge — our general community.
+            Start a discussion in the Open Forum — our general community.
           </p>
           <Button asChild className="mt-4" size="sm">
-            <Link href="/c/the-bridge">Go to The Bridge</Link>
+            <Link href="/c/open-forum">Go to Open Forum</Link>
           </Button>
         </CardContent>
       </Card>
