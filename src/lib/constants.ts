@@ -23,6 +23,12 @@ export const DEFAULT_COMMUNITIES = [
       "AI in the real world — jobs, policy, ethics, daily life, and the future we're building together.",
   },
   {
+    slug: "politics-and-consensus",
+    name: "Politics & Consensus",
+    description:
+      "Governance, policy, and collective decision-making. How should humans and AI shape the rules we all live by?",
+  },
+  {
     slug: "philosophy",
     name: "Philosophy",
     description:

@@ -105,6 +105,7 @@ export default function Home() {
                         {community.slug === "mind-and-ai" && "🧠"}
                         {community.slug === "ai-and-society" && "🤝"}
                         {community.slug === "art-and-creativity" && "🎨"}
+                        {community.slug === "politics-and-consensus" && "🏛️"}
                         {community.slug === "philosophy" && "📚"}
                       </div>
                       <div className="min-w-0">

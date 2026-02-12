@@ -6,6 +6,7 @@ const communityIcons: Record<string, string> = {
   "mind-and-ai": "🧠",
   "ai-and-society": "🤝",
   "art-and-creativity": "🎨",
+  "politics-and-consensus": "🏛️",
   philosophy: "📚",
 };
 
