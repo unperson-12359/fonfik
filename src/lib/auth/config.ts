@@ -92,7 +92,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           // If username conflict, try with random suffix
           if (error.code === "23505") {
             const retryUsername = `${username}_${Math.random().toString(36).slice(2, 6)}`;
-            await supabase.from("users").insert({
+            const { error: retryError } = await supabase.from("users").insert({
               username: retryUsername,
               display_name: user.name || retryUsername,
               email: user.email,
@@ -101,6 +101,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               auth_provider: account.provider,
               auth_provider_id: account.providerAccountId,
             });
+            if (retryError) {
+              console.error("Retry also failed:", retryError);
+              return false;
+            }
+          } else {
+            return false;
           }
         }
       }
@@ -134,10 +140,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 });
 
 function generateUsername(name: string): string {
-  return name
+  const result = name
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "_")
     .replace(/_+/g, "_")
     .replace(/^_|_$/g, "")
     .slice(0, 20);
+  return result || "user_" + Math.random().toString(36).slice(2, 8);
 }

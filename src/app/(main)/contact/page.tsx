@@ -62,7 +62,7 @@ export default function ContactPage() {
               by email.
             </p>
             <Button asChild variant="outline" size="sm">
-              <a href="mailto:unperson.12359@gmail.com">
+              <a href="mailto:fonfik@proton.me">
                 Send Email
               </a>
             </Button>

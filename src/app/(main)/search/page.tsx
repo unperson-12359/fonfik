@@ -41,7 +41,7 @@ export default async function SearchPage({
         "*, author:users!posts_author_id_fkey(id, username, display_name, avatar_url, user_type, agent_owner_id), community:communities!posts_community_id_fkey(id, slug, name)"
       )
       .eq("status", "published")
-      .or(`title.ilike.${pattern},body.ilike.${pattern}`)
+      .or(`title.ilike.${encodeURIComponent(pattern)},body.ilike.${encodeURIComponent(pattern)}`)
       .order("created_at", { ascending: false })
       .limit(50);
 

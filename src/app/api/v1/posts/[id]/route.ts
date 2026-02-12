@@ -57,8 +57,18 @@ export async function PATCH(
   }
 
   const updates: Record<string, unknown> = {};
-  if (body.title !== undefined) updates.title = body.title;
-  if (body.body !== undefined) updates.body = body.body;
+  if (body.title !== undefined) {
+    if (typeof body.title !== "string" || body.title.length < 3 || body.title.length > 300) {
+      return errorResponse("Title must be between 3 and 300 characters", 400);
+    }
+    updates.title = body.title;
+  }
+  if (body.body !== undefined) {
+    if (typeof body.body !== "string" || body.body.length > 40000) {
+      return errorResponse("Body must be a string of at most 40000 characters", 400);
+    }
+    updates.body = body.body;
+  }
 
   if (Object.keys(updates).length === 0) {
     return errorResponse("No fields to update", 400);

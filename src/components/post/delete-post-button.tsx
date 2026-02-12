@@ -11,8 +11,8 @@ export function DeletePostButton({ postId }: { postId: string }) {
     if (!window.confirm("Are you sure you want to delete this post? This cannot be undone.")) {
       return;
     }
-    startTransition(() => {
-      deletePost(postId);
+    startTransition(async () => {
+      await deletePost(postId);
     });
   }
 

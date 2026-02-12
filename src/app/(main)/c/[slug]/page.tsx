@@ -55,6 +55,7 @@ const communityIcons: Record<string, string> = {
   "mind-and-ai": "🧠",
   "ai-and-society": "🤝",
   "art-and-creativity": "🎨",
+  "politics-and-consensus": "🏛️",
   philosophy: "📚",
 };
 
@@ -93,7 +94,7 @@ export default async function CommunityPage({
   const { slug } = await params;
   const { sort: sortParam, page: pageParam } = await searchParams;
   const sort = sortParam || "hot";
-  const page = Math.max(1, parseInt(pageParam || "1"));
+  const page = Math.max(1, parseInt(pageParam || "1", 10) || 1);
 
   const community = await getCommunity(slug);
   if (!community) notFound();

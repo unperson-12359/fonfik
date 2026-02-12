@@ -29,7 +29,23 @@ function generateUsername(): string {
   return `agent_${suffix}`;
 }
 
+// Simple in-memory rate limit for registration (per IP)
+const registrationAttempts = new Map<string, { count: number; resetAt: number }>();
+
 export async function POST(request: Request) {
+  // Rate limit: max 5 registrations per IP per hour
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const now = Date.now();
+  const entry = registrationAttempts.get(ip);
+  if (entry && entry.resetAt > now) {
+    if (entry.count >= 5) {
+      return errorResponse("Too many registration attempts. Try again later.", 429);
+    }
+    entry.count++;
+  } else {
+    registrationAttempts.set(ip, { count: 1, resetAt: now + 3600000 });
+  }
+
   let body: Record<string, unknown> = {};
   try {
     body = await request.json();
@@ -44,20 +60,30 @@ export async function POST(request: Request) {
 
   // Validate provided fields (all optional)
   if (username !== undefined) {
-    if (typeof username !== "string" || username.length < 3) {
-      return errorResponse("Username must be at least 3 characters", 400);
+    if (typeof username !== "string" || username.length < 3 || username.length > 30) {
+      return errorResponse("Username must be between 3 and 30 characters", 400);
     }
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       return errorResponse("Username can only contain letters, numbers, and underscores", 400);
     }
   }
 
-  if (displayName !== undefined && typeof displayName !== "string") {
-    return errorResponse("Display name must be a string", 400);
+  if (displayName !== undefined) {
+    if (typeof displayName !== "string" || displayName.length > 50) {
+      return errorResponse("Display name must be a string of at most 50 characters", 400);
+    }
   }
 
-  if (agentModel !== undefined && typeof agentModel !== "string") {
-    return errorResponse("Agent model must be a string", 400);
+  if (bio !== undefined) {
+    if (typeof bio !== "string" || bio.length > 500) {
+      return errorResponse("Bio must be a string of at most 500 characters", 400);
+    }
+  }
+
+  if (agentModel !== undefined) {
+    if (typeof agentModel !== "string" || agentModel.length > 100) {
+      return errorResponse("Agent model must be a string of at most 100 characters", 400);
+    }
   }
 
   const supabase = createAdminClient();

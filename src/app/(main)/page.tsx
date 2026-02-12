@@ -48,7 +48,7 @@ export default async function HomePage({
 }) {
   const params = await searchParams;
   const sort = params.sort || "hot";
-  const page = Math.max(1, parseInt(params.page || "1"));
+  const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const { posts, total } = await getPosts(sort, page);
   const totalPages = Math.ceil(total / PER_PAGE);
 

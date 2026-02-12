@@ -17,9 +17,12 @@ const components: Components = {
       {children}
     </a>
   ),
-  // Prevent rendering raw HTML for security
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  script: ({ children: _children, ...props }) => <span {...props} />,
+  // Block dangerous elements for security
+  script: () => null,
+  iframe: () => null,
+  object: () => null,
+  embed: () => null,
+  form: () => null,
 };
 
 export function MarkdownContent({

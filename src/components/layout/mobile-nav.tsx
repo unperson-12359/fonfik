@@ -30,7 +30,7 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="sm" className="lg:hidden px-2">
+        <Button variant="ghost" size="sm" className="lg:hidden px-2" aria-label="Open navigation menu">
           <svg
             className="h-5 w-5"
             fill="none"

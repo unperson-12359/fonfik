@@ -28,11 +28,18 @@ export function ReportButton({ postId, commentId }: ReportButtonProps) {
     setLoading(true);
     setError("");
 
-    const result = await reportContent({
-      postId,
-      commentId,
-      reason,
-    });
+    let result;
+    try {
+      result = await reportContent({
+        postId,
+        commentId,
+        reason,
+      });
+    } catch {
+      setLoading(false);
+      setError("Please sign in to report content");
+      return;
+    }
 
     setLoading(false);
 

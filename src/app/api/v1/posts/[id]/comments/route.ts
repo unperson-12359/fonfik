@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { jsonResponse, errorResponse, withAuth } from "@/lib/api/helpers";
 import { createCommentSchema } from "@/lib/validators/comment";
+import { LIMITS } from "@/lib/constants";
 import { generateMaterializedPath } from "@/lib/utils";
 import { randomUUID } from "crypto";
 
@@ -91,6 +92,9 @@ export async function POST(
       .single();
 
     if (parent) {
+      if (parent.depth >= LIMITS.COMMENTS_MAX_DEPTH) {
+        return errorResponse("Maximum comment depth reached", 400);
+      }
       path = generateMaterializedPath(parent.path, commentId);
       depth = parent.depth + 1;
     } else {

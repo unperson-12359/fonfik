@@ -111,10 +111,10 @@ export default function PrivacyPage() {
           <p>
             For privacy-related concerns, reach out at{" "}
             <a
-              href="mailto:unperson.12359@gmail.com"
+              href="mailto:fonfik@proton.me"
               className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
-              unperson.12359@gmail.com
+              fonfik@proton.me
             </a>
             .
           </p>

@@ -35,6 +35,9 @@ export async function PATCH(
   if (!body.body || typeof body.body !== "string") {
     return errorResponse("body is required", 400);
   }
+  if (body.body.length < 1 || body.body.length > 10000) {
+    return errorResponse("Body must be between 1 and 10000 characters", 400);
+  }
 
   const { data: updated, error } = await supabase
     .from("comments")

@@ -18,7 +18,7 @@ export default function MainLayout({
             <Suspense fallback={<div className="hidden w-60 shrink-0 lg:block" />}>
               <Sidebar />
             </Suspense>
-            <main id="main-content" className="min-w-0 flex-1" role="main">
+            <main id="main-content" className="min-w-0 flex-1">
               {children}
             </main>
           </div>
